@@ -1,0 +1,17 @@
+.inputRed {
+    /*border:1px solid #ff4040;*/
+    background: #ffcece;
+}
+.inputGreen {
+    /*border:1px solid #83c954;*/
+    background: #e8ffce;
+}
+p.error {
+    color: rgb(119, 119, 119);
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+.btn[disabled] {
+    background-color: rgb(28, 185, 78);
+}
