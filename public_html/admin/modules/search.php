@@ -1,16 +1,19 @@
 <?php
 
 $aData = array();
+$tag = '0';
 
-if(isset($_POST["search_text"], $_POST["type_id"]) and bIsInt($_POST["type_id"], 1, 2))
-{  if(get_magic_quotes_gpc())
+if(isset($_POST["search_text"], $_POST["type_id"]) and bIsInt($_POST["type_id"], 1, 100))
+{
+  if(get_magic_quotes_gpc())
   {
     $_POST["search_text"] = stripslashes($_POST["search_text"]);
   }
   $_POST["search_text"] = trim($_POST["search_text"]);
 
   if(mb_strlen($_POST["search_text"], "utf-8") > 2)
-  {  	$oDB = cMyDB::oGetDB("db");
+  {
+  	$oDB = cMyDB::oGetDB("db");
 
   	switch($_POST["type_id"])
     {
@@ -83,6 +86,27 @@ ORDER BY
 
   	    break;
   	  }
+      case 3:
+      {
+        //теги
+
+        // SELECT CONCAT ( 'Happy ', 'Birthday ', 11, '/', '25' ) AS Result;
+        $sSql = "SELECT id AS content_id, name AS content_name, name AS content_name_other, name AS content_url FROM " . DB_PREFIX . "tags_objects WHERE name LIKE '%" . $oDB->escape_string($_POST["search_text"]) . "%' GROUP BY id ORDER BY id";
+        // echo $sSql;
+        $tag = '1';
+        break;
+      }
+
+      case 4:
+      {
+        //теги
+
+        // SELECT CONCAT ( 'Happy ', 'Birthday ', 11, '/', '25' ) AS Result;
+        $sSql = "SELECT id AS content_id, name AS content_name, name AS content_name_other, name AS content_url FROM " . DB_PREFIX . "tags_names WHERE name LIKE '%" . $oDB->escape_string($_POST["search_text"]) . "%' GROUP BY id ORDER BY id";
+        // echo $sSql;
+        $tag = '1';
+        break;
+      }
     }
 
     if($oResult = $oDB->query($sSql))
@@ -94,12 +118,21 @@ ORDER BY
         $aRow["content_odd"] = (int) $bOdd;
         $bOdd = !$bOdd;
 
-        $aData[] = array("content_id" => $aRow["content_id"], "content_name" => htmlspecialchars($aRow["content_name"]), "content_name_other" => htmlspecialchars($aRow["content_name_other"]), "content_url" => $aRow["content_url"], "content_odd" => $aRow["content_odd"]);
+        if ($tag == '1') {
+          $aData[] = array("content_id" => $aRow["content_id"], "content_name" => htmlspecialchars($aRow["content_name"]), "content_name_other" => '', "content_url" => '', "content_odd" => $aRow["content_odd"], "content_tag" => '1');
+        }else{
+          $aData[] = array("content_id" => $aRow["content_id"], "content_name" => htmlspecialchars($aRow["content_name"]), "content_name_other" => htmlspecialchars($aRow["content_name_other"]), "content_url" => $aRow["content_url"], "content_odd" => $aRow["content_odd"]);
+        }
+        
       }
       $oResult->close();
-    }  }}
+    }
+  }
+}
 
 if(!empty($aData))
-{  echo json_encode($aData);}
+{
+  echo json_encode($aData);
+}
 
 ?>

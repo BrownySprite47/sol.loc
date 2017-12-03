@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 23:04:45
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 21:28:32
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_leaders_view.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:143805a1fc016720db0-06471173%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '2c60639a18a164ccb604dc9b6a3f944e28e9d89f' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_leaders_view.tpl',
-      1 => 1512154686,
+      1 => 1512325710,
       2 => 'file',
     ),
   ),
@@ -33,6 +33,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'aProjects' => 0,
     'bLeaderProjectDeleteEnabled' => 0,
     'iProjectOrderMax' => 0,
+    'aTagsLiders' => 0,
     'aRecommendations' => 0,
     'bRecommendationDeleteEnabled' => 0,
     'iTemp' => 0,
@@ -699,6 +700,226 @@ echo $_smarty_tpl->tpl_vars['aContentData']->value['leader_question_20'];
 }?></textarea></td>
 </tr>
 </table>
+
+
+
+
+
+
+
+<!-- Начало блока тегов -->
+
+
+<?php if (isset($_smarty_tpl->tpl_vars['aTagsLiders']->value)) {?>
+<!-- Исправила for -->
+<div class="options_add" for="tags">Теги</div>
+<!-- Исправила класс на tags -->
+<table class="base_table tags">
+<tbody>
+<tr>
+<th style="width: 30%;" colspan="3"><strong>Наименование объекта</strong></th>
+<th style="width: 40%;"><strong>Значение объекта <!-- <div class="info white"><span>Почему Вы его рекомендуете, как ЛИСС? Какие проблемы он решает? Почему Вы думаете, что он действительно решает социальные проблемы? Насколько Вы ему доверяете как человеку и как профессионалу?</span></div> --></strong></th>
+<th style="width: 30%;"><strong>Колонка под теги</strong></th>
+<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value['leader_id'],$_smarty_tpl->tpl_vars['aRecommendations']->value)&&$_smarty_tpl->tpl_vars['bRecommendationDeleteEnabled']->value) {?><th class="small"></th><?php }?>
+</tr>
+<?php $_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("0", null, 0);?>
+
+<?php if (!empty($_smarty_tpl->tpl_vars['aTagsLiders']->value['data']['id_leader'])) {?>
+<?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['aTagsLiders']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['item']->key => $_smarty_tpl->tpl_vars['item']->value) {
+$_smarty_tpl->tpl_vars['item']->_loop = true;
+?>
+<?php if ($_smarty_tpl->tpl_vars['iTemp']->value==0) {
+$_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("1", null, 0);
+} else {
+$_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("0", null, 0);
+}?>
+<?php if ($_smarty_tpl->tpl_vars['item']->value['data']['id_leader']!='') {?>
+<tr<?php if ($_smarty_tpl->tpl_vars['iTemp']->value==1) {?> class="odd"<?php }?>>
+<td style="width: 5%; text-align: center;">1</td>
+<td colspan="2"><p><?php echo $_smarty_tpl->tpl_vars['item']->value['object']['name']['name'];?>
+</p></td>
+<td><textarea name="object_value_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+]"><?php if (isset($_smarty_tpl->tpl_vars['item']->value['object']['value']['value_object'])) {?> <?php echo $_smarty_tpl->tpl_vars['item']->value['object']['value']['value_object'];
+}?></textarea></td>
+<td>
+  <p><?php echo $_smarty_tpl->tpl_vars['item']->value['tag_1']['name'];?>
+</p>
+  <p><?php if ($_smarty_tpl->tpl_vars['item']->value['tag_2']['name']!='') {?> <?php echo $_smarty_tpl->tpl_vars['item']->value['tag_2']['name'];
+}?> </p>
+  <p><?php if ($_smarty_tpl->tpl_vars['item']->value['tag_3']['name']!='') {?> <?php echo $_smarty_tpl->tpl_vars['item']->value['tag_3']['name'];
+}?> </p>
+</td>
+
+<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value['leader_id'])&&$_smarty_tpl->tpl_vars['bRecommendationDeleteEnabled']->value) {?><td><a href="<?php echo $_smarty_tpl->getConfigVariable('PROJECT_BACKEND_URL');?>
+index.php?module_name=leaders&action_name=recommendation_delete&content_id=<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="<?php echo $_smarty_tpl->getConfigVariable('PROJECT_BACKEND_URL');?>
+images/delete.png" alt="Удалить" /></a></td><?php }?>
+</tr>
+<?php } else { ?>
+<tr<?php if ($_smarty_tpl->tpl_vars['iTemp']->value==1) {?> class="odd"<?php }?>>
+<td style="width: 5%; text-align: center;">1</td>
+<td colspan="2">
+
+  <input class="search_link_3" id="object_tag_old_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+_tag" type="text" name="leader_object_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+]" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" />
+  <input class="search_link_3" id="object_tag_old_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" type="text" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" placeholder="наименование объекта" autocomplete="off" />
+
+</td>
+<td><textarea rows="7" placeholder="значение объекта" name="recommendation_comment_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+]"><?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_comment'];?>
+</textarea></td>
+<td>
+  <br>
+    <input class="search_link_4" id="tag_old_1_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+_tag" type="text" name="leader_tag_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+][1]" />
+    <input class="search_link_4" id="tag_old_1_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" type="text" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" placeholder="наименование тега" autocomplete="off" />
+
+    <input class="search_link_4" id="tag_old_2_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+_tag" type="text" name="leader_tag_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+][2]" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" />
+    <input class="search_link_4" id="tag_old_2_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+" type="text" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" placeholder="наименование тега" autocomplete="off" />
+
+    <input class="search_link_4" id="tag_old_3_<?php echo $_smarty_tpl->tpl_vars['item']->value['id'];?>
+_tag" type="text" name="leader_tag_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+][3]" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" />
+    <input class="search_link_4" id="tag_old_3_<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+" type="text" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" placeholder="наименование тега" autocomplete="off" />
+
+    <input class="search_link_4" id="tag_old_4_<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+_tag" type="text" name="leader_tag_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+][4]" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" />
+    <input class="search_link_4" id="tag_old_4_<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+" type="text" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" placeholder="наименование тега" autocomplete="off" />
+
+    <input class="search_link_4" id="tag_old_5_<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+_tag" type="text" name="leader_tag_old[<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+][5]" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" />
+    <input class="search_link_4" id="tag_old_5_<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+" type="text" value="<?php echo $_smarty_tpl->tpl_vars['item']->value['leader_surname'];?>
+" placeholder="наименование тега" autocomplete="off" />
+
+    <br>
+    <br>
+</td>
+
+<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value['leader_id'])&&$_smarty_tpl->tpl_vars['bRecommendationDeleteEnabled']->value) {?><td rowspan="6"><a href="<?php echo $_smarty_tpl->getConfigVariable('PROJECT_BACKEND_URL');?>
+index.php?module_name=leaders&action_name=recommendation_delete&content_id=<?php echo $_smarty_tpl->tpl_vars['item']->value['recommendation_id'];?>
+" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="<?php echo $_smarty_tpl->getConfigVariable('PROJECT_BACKEND_URL');?>
+images/delete.png" alt="Удалить" /></a></td><?php }?>
+</tr>
+<?php }?>
+<?php } ?>
+<?php }?>
+
+<?php if (isset($_smarty_tpl->tpl_vars['smarty']->value['section']['for'])) unset($_smarty_tpl->tpl_vars['smarty']->value['section']['for']);
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['name'] = 'for';
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['loop'] = is_array($_loop=3) ? count($_loop) : max(0, (int) $_loop); unset($_loop);
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['show'] = true;
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['max'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['loop'];
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['step'] = 1;
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['start'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['step'] > 0 ? 0 : $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['loop']-1;
+if ($_smarty_tpl->tpl_vars['smarty']->value['section']['for']['show']) {
+    $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['total'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['loop'];
+    if ($_smarty_tpl->tpl_vars['smarty']->value['section']['for']['total'] == 0)
+        $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['show'] = false;
+} else
+    $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['total'] = 0;
+if ($_smarty_tpl->tpl_vars['smarty']->value['section']['for']['show']):
+
+            for ($_smarty_tpl->tpl_vars['smarty']->value['section']['for']['index'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['start'], $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['iteration'] = 1;
+                 $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['iteration'] <= $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['total'];
+                 $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['index'] += $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['step'], $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['iteration']++):
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['rownum'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['iteration'];
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['index_prev'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['index'] - $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['step'];
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['index_next'] = $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['index'] + $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['step'];
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['first']      = ($_smarty_tpl->tpl_vars['smarty']->value['section']['for']['iteration'] == 1);
+$_smarty_tpl->tpl_vars['smarty']->value['section']['for']['last']       = ($_smarty_tpl->tpl_vars['smarty']->value['section']['for']['iteration'] == $_smarty_tpl->tpl_vars['smarty']->value['section']['for']['total']);
+?>
+<?php if ($_smarty_tpl->tpl_vars['iTemp']->value==0) {
+$_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("1", null, 0);
+} else {
+$_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("0", null, 0);
+}?>
+<tr<?php if ($_smarty_tpl->tpl_vars['iTemp']->value==1) {?> class="odd"<?php }?>>
+<td style="width: 5%; text-align: center;">1</td>
+<td colspan="2">
+
+  <input class="search_link_3" id="object_tag_new_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_object_new_[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+]" />
+  <input class="search_link_3" id="object_tag_new_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+" type="text" placeholder="наименование объекта" autocomplete="off" />
+
+</td>
+<td><textarea placeholder="значение объекта" rows="7" name="object_value_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+]"></textarea></td>
+<td>
+  <br>
+  <input class="search_link_4" id="tag_new_1_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_tag_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+][1]" />
+  <input class="search_link_4" id="tag_new_1_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+" type="text" placeholder="наименование тега" autocomplete="off" />
+
+  <input class="search_link_4" id="tag_new_2_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_tag_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+][2]" />
+  <input class="search_link_4" id="tag_new_2_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+" type="text" placeholder="наименование тега" autocomplete="off" />
+
+  <input class="search_link_4" id="tag_new_3_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_tag_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+][3]" />
+  <input class="search_link_4" id="tag_new_3_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+" type="text" placeholder="наименование тега" autocomplete="off" />
+
+  <input class="search_link_4" id="tag_new_4_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_tag_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+][4]" />
+  <input class="search_link_4" id="tag_new_4_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+" type="text" placeholder="наименование тега" autocomplete="off" />
+
+  <input class="search_link_4" id="tag_new_5_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_tag_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+][5]" />
+  <input class="search_link_4" id="tag_new_5_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+" type="text" placeholder="наименование тега" autocomplete="off" />
+  <br>
+  <br>
+</td>
+<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value['leader_id'],$_smarty_tpl->tpl_vars['aRecommendations']->value)&&$_smarty_tpl->tpl_vars['bRecommendationDeleteEnabled']->value) {?><td rowspan="6"></td><?php }?>
+</tr>
+<?php endfor; endif; ?>
+
+</tbody>
+</table>
+<?php }?>
+
+
+
+
+<!-- Конец блока тегов -->
+
+
+
+
 
 <?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value['leader_id'])) {?>
 <div class="options_add" for="leaders">Рекомендации (входящие: <?php echo $_smarty_tpl->tpl_vars['aContentData']->value['recommendations_to_count_all'];?>

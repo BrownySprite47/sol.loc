@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-11-30 13:50:36
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 20:38:00
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_projects_view.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:235525a1fbf7c42fce5-09511732%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0cb57b3ec34046ebbb5a0fa698b0352a9bb70d51' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_projects_view.tpl',
-      1 => 1512039034,
+      1 => 1512153484,
       2 => 'file',
     ),
   ),
@@ -1078,7 +1078,7 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 <table class="wrap_sub">
 <tr>
 <td></td>
-<td><input style="position: fixed;bottom: 24px;left: 166px;" type="submit" value="Сохранить"/></td>
+<td><input style="position: fixed;bottom: 24px;left: 77px;" type="submit" value="Сохранить"/></td>
 </tr>
 </table>
 

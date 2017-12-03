@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 23:04:43
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 01:37:12
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_main.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:293155a1fbf7c023a86-99046017%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (

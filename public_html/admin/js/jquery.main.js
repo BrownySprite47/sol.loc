@@ -12,6 +12,7 @@ $(function(){
             $('#my_content').css('padding-left', '270px');
         }
         $('#header-fixed').hide();
+        $('#header-fixed-fio').hide();
         $(window).scroll();
     });
 
@@ -101,9 +102,17 @@ function IsJsonString(sText)
   return true;
 }
 
-function vSetSearchData(sInputId, iContentId)
+function vSetSearchData(sInputId, iContentId, iContentName = '')
 {
-  $("#" + sInputId).val(iContentId);
+  // console.log($iContentId);
+  // alert($iContentId);
+  if (iContentName != '') {
+    $("#" + sInputId + "_tag").val(iContentId);
+    $("#" + sInputId).val(iContentName);
+  }else{
+    $("#" + sInputId).val(iContentId);
+  }
+  
   $("#search_block").hide().html("");
 }
 
@@ -119,25 +128,32 @@ function vSearch(sInputId, iTypeId)
   	{
   	  var aData = JSON.parse(sResult);
 
-  	  console.log(aData);
+  	  
 
   	  aData.forEach(function(aItem)
   	  {
+
         if(aItem.content_odd == '1')
         {
           sClass = ' class="odd"';
         }
+
         else
         {
           sClass = '';
         }
-
         if(aItem.content_name_other != "")
         {
           aItem.content_name = aItem.content_name + " (" + aItem.content_name_other + ")";
         }
+        if (aItem.content_tag == '1') {
+          console.log(aItem.content_name);
+            sResultText = sResultText + '<tr' + sClass + '><td><p>' + aItem.content_name + '</p></td><td class="small"><a href="#" onclick="vSetSearchData(\'' + sInputId + '\', ' + aItem.content_id + ', \'' + aItem.content_name + '\'); return false;">выбрать</a></td></tr>';
+        }else{
+            sResultText = sResultText + '<tr' + sClass + '><td><a href="' + aItem.content_url + '" target="_blank">' + aItem.content_name + '</a></td><td class="small"><a href="#" onclick="vSetSearchData(\'' + sInputId + '\', ' + aItem.content_id + '); return false;">выбрать</a></td></tr>';
 
-        sResultText = sResultText + '<tr' + sClass + '><td><a href="' + aItem.content_url + '" target="_blank">' + aItem.content_name + '</a></td><td class="small"><a href="#" onclick="vSetSearchData(\'' + sInputId + '\', ' + aItem.content_id + '); return false;">выбрать</a></td></tr>';
+        }
+
       });
   	}
   	else

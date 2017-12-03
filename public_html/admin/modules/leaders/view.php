@@ -83,7 +83,9 @@ LIMIT
       $iContentId = $aRow["leader_id"];
 
       if($aRow["leader_interview_date"] !== "" and $sLeaderCreateDateRecommend > $aRow["leader_interview_date"])
-      {      	$sLeaderCreateDateRecommend = $aRow["leader_interview_date"];      }
+      {
+      	$sLeaderCreateDateRecommend = $aRow["leader_interview_date"];
+      }
 
       if(($sLeaderCreateDateRecommend . " 00:00:00") > $aRow["leader_create_datetime"])
       {
@@ -241,7 +243,9 @@ ORDER BY
           $oSmarty->append("aRecommendationsFrom", $aRecommendationsRow);
 
           if($sLeaderCreateDateRecommend > $aRecommendationsRow["leader_create_date_recommend"])
-          {          	$sLeaderCreateDateRecommend = $aRecommendationsRow["leader_create_date_recommend"];          }
+          {
+          	$sLeaderCreateDateRecommend = $aRecommendationsRow["leader_create_date_recommend"];
+          }
         }
         $oRecommendationsResult->close();
       }
@@ -351,7 +355,9 @@ if($oResult = $oDB->query($sSql))
     unset($aRow["option_selected"]);
 
     foreach($aOptionValueId as $iTemp => $iOptionValueId)
-    {      $aRow["option_value"][$iOptionValueId] = array("option_value_id" => $iOptionValueId, "option_value" => $aOptionValue[$iTemp], "option_selected" => $aOptionSelected[$iTemp]);    }
+    {
+      $aRow["option_value"][$iOptionValueId] = array("option_value_id" => $iOptionValueId, "option_value" => $aOptionValue[$iTemp], "option_selected" => $aOptionSelected[$iTemp]);
+    }
 
     $aOptions[$aRow["option_id"]] = $aRow;
   }
@@ -378,14 +384,116 @@ $aMenu["leaders"]["active"] = true;
 $oSmarty->assign("aPageData", $aPageData);
 $oSmarty->assign("aMenu", $aMenu);
 
+// запрос на получение списка объектов для тегов
+// 
+
+$sSql = "SELECT * FROM " . DB_PREFIX . "tags_leaders WHERE id_leader = '".htmlspecialchars($_GET["content_id"])."'";
+
+
+if($oResult = $oDB->query($sSql))
+{
+  $i = 0;
+  while($aRow = $oResult->fetch_assoc())
+  {
+
+    $aTagsLiders[$i]['data'] = $aRow;
+
+    $sSqlObjects = "SELECT * FROM " . DB_PREFIX . "tags_objects WHERE id = '".$aRow['id_name_object']."'";
+    if($oResultObjects = $oDB->query($sSqlObjects))
+    {
+      while($aObjects = $oResultObjects->fetch_assoc())
+      {
+        $aTagsLiders[$i]['object']['name'] = $aObjects;
+      }
+    }
+
+    $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id = '".$aRow['id_name_object']."'";
+    if($oResultTags = $oDB->query($sSqlTags))
+    {
+      while($aTags = $oResultTags->fetch_assoc())
+      {
+        $aTagsLiders[$i]['object']['value'] = $aTags;
+      }
+    }
+
+    $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_names WHERE id = '".$aRow['id_name_tag_1']."'";
+    if($oResultTags = $oDB->query($sSqlTags))
+    {
+      while($aTags = $oResultTags->fetch_assoc())
+      {
+        $aTagsLiders[$i]['tag_1'] = $aTags;
+      }
+    }
+
+    $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_names WHERE id = '".$aRow['id_name_tag_2']."'";
+    if($oResultTags = $oDB->query($sSqlTags))
+    {
+      while($aTags = $oResultTags->fetch_assoc())
+      {
+        $aTagsLiders[$i]['tag_2'] = $aTags;
+      }
+    }
+
+    $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_names WHERE id = '".$aRow['id_name_tag_3']."'";
+    if($oResultTags = $oDB->query($sSqlTags))
+    {
+      while($aTags = $oResultTags->fetch_assoc())
+      {
+        $aTagsLiders[$i]['tag_3'] = $aTags;
+      }
+    }    
+
+    $i++;
+  }
+  $oResult->close();
+// echo "<pre>";
+//     print_r($aTagsLiders);
+// echo "</pre>";
+if(isset($aTagsLiders) && !empty($aTagsLiders))
+{
+  $oSmarty->assign("aTagsLiders", $aTagsLiders);
+}else{
+  $oSmarty->assign("aTagsLiders", 'NEW');
+}
+
+}
+
+
+$sSql = "SELECT * FROM " . DB_PREFIX . "tags";
+
+
+if($oResult = $oDB->query($sSql))
+{
+  while($aRow = $oResult->fetch_assoc())
+  {
+    $aTags[] = $aRow;
+  }
+  $oResult->close();
+// echo "<pre>";
+//     print_r($aTags);
+// echo "</pre>";
+
+$oSmarty->assign("aTags", $aTags);
+}
+
+
+
 if($sActionName === "view")
-{  $oSmarty->assign("sInnerPage", "backend_leaders_view");
-  $oSmarty->display("backend_main.tpl");}
+{
+  $oSmarty->assign("sInnerPage", "backend_leaders_view");
+  $oSmarty->display("backend_main.tpl");
+}
 else
-{  if($iContentId === 0)
-  {  	header("Location: " . PROJECT_BACKEND_URL . "index.php?module_name=leaders&action_name=list");  }
+{
+  if($iContentId === 0)
+  {
+  	header("Location: " . PROJECT_BACKEND_URL . "index.php?module_name=leaders&action_name=list");
+  }
   else
-  {  	$oSmarty->assign("sInnerPage", "backend_leaders_view_without_edit");
-    $oSmarty->display("backend_main.tpl");  }}
+  {
+  	$oSmarty->assign("sInnerPage", "backend_leaders_view_without_edit");
+    $oSmarty->display("backend_main.tpl");
+  }
+}
 
 ?>
