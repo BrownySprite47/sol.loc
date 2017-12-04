@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-11-30 11:25:40
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-04 10:31:22
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_leaders_view_without_edit.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:7575a1fc084be9fb6-44212513%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '961bd2aad179a2d6e1922b62f1533ca870ca79e7' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_leaders_view_without_edit.tpl',
-      1 => 1512030220,
+      1 => 1512372680,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.21-dev',
+  'unifunc' => 'content_5a1fc084f11384_65825512',
   'variables' => 
   array (
     'aContentData' => 0,
@@ -32,8 +34,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'iTemp1' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.21-dev',
-  'unifunc' => 'content_5a1fc084f11384_65825512',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_5a1fc084f11384_65825512')) {function content_5a1fc084f11384_65825512($_smarty_tpl) {?><?php if (!is_callable('smarty_function_cycle')) include 'C:/OSPanel/domains/localhost/sol.loc/public_html/admin/libs/Smarty/plugins\\function.cycle.php';
 ?><div class="sub_links">
@@ -180,10 +180,18 @@ if ($_smarty_tpl->tpl_vars['item']->value['project_name']!='') {?> (<?php echo $
 <td>Анкета актуальна</td>
 <td><?php if ($_smarty_tpl->tpl_vars['aContentData']->value['leader_enabled']==1) {?>+<?php } else { ?>-<?php }?></td>
 </tr>
-<tr<?php echo smarty_function_cycle(array('name'=>"content_data_01",'values'=>' class="odd",'),$_smarty_tpl);?>
+<!-- <tr<?php echo smarty_function_cycle(array('name'=>"content_data_01",'values'=>' class="odd",'),$_smarty_tpl);?>
 >
 <td>Анкета заполнена</td>
 <td><?php if ($_smarty_tpl->tpl_vars['aContentData']->value['leader_done']==1) {?>+<?php } else { ?>-<?php }?></td>
+</tr> -->
+<tr<?php echo smarty_function_cycle(array('name'=>"content_data_01",'values'=>' class="odd",'),$_smarty_tpl);?>
+>
+<td>Заполненность анкеты</td>
+<td> <?php if ($_smarty_tpl->tpl_vars['aContentData']->value['leader_done_1']==1) {?> Заполнены минимальные данные <?php }?></td>
+<td> <?php if ($_smarty_tpl->tpl_vars['aContentData']->value['leader_done_2']==1) {?> Заполнены данные для FAS <?php }?></td>
+<td> <?php if ($_smarty_tpl->tpl_vars['aContentData']->value['leader_done_3']==1) {?> Внесено все интервью <?php }?></td>
+<td> <?php if ($_smarty_tpl->tpl_vars['aContentData']->value['leader_done_4']==1) {?> Проставлены теги <?php }?></td>
 </tr>
 </tbody>
 </table>

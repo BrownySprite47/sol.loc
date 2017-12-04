@@ -49,7 +49,10 @@ $bResult = true;
 foreach($aPostData as $sFieldName => $aFieldData)
 {
   if($aFieldData["isset"] === 1 and !isset($_POST[$sFieldName]))
-  {  	$bResult = false;  }}
+  {
+  	$bResult = false;
+  }
+}
 
 if($bResult)
 {
@@ -95,10 +98,15 @@ if($bResult)
     $iTransactionId = $oDB->aGetDataByFilters(DB_PREFIX . "leaders", "transaction_id", array("leader_id" => $_GET["content_id"]));
 
     if((is_null($iTransactionId) and $_POST["transaction_id"] === "") or (bIsInt($_POST["transaction_id"], 1) and !is_null($iTransactionId) and $iTransactionId == $_POST["transaction_id"]))
-    {      unset($aContentDataErrors["transaction_id"]);    }  }
+    {
+      unset($aContentDataErrors["transaction_id"]);
+    }
+  }
 
   if($_POST["leader_phone"] !== "" and strlen($_POST["leader_phone"]) !== 10)
-  {  	$aContentDataErrors["leader_phone"] = "";  }
+  {
+  	$aContentDataErrors["leader_phone"] = "";
+  }
 
   if($_POST["leader_question_02"] !== "" and !bIsInt($_POST["leader_question_02"], 0))
   {
@@ -106,7 +114,9 @@ if($bResult)
   }
 
   if($_POST["leader_surname"] === "")
-  {  	$aContentDataErrors["leader_surname"] = "Поле обязательно для заполнения";  }
+  {
+  	$aContentDataErrors["leader_surname"] = "Поле обязательно для заполнения";
+  }
 
   if($_POST["leader_interview_date"] !== "" and !bIsDate($_POST["leader_interview_date"]))
   {
@@ -116,14 +126,20 @@ if($bResult)
   if($_POST["leader_birth_date"] !== "" and !bIsDate($_POST["leader_birth_date"]))
   {
   	if(!bIsDate($_POST["leader_birth_date"] . "-01"))
-  	{  	  if(!bIsDate($_POST["leader_birth_date"] . "-07-01"))
+  	{
+  	  if(!bIsDate($_POST["leader_birth_date"] . "-07-01"))
   	  {
   		$aContentDataErrors["leader_birth_date"] = "";
   	  }
   	  else
-  	  {  	  	$_POST["leader_birth_date"] = $_POST["leader_birth_date"] . "-07-01";  	  }  	}
+  	  {
+  	  	$_POST["leader_birth_date"] = $_POST["leader_birth_date"] . "-07-01";
+  	  }
+  	}
   	else
-  	{  	  $_POST["leader_birth_date"] = $_POST["leader_birth_date"] . "-01";  	}
+  	{
+  	  $_POST["leader_birth_date"] = $_POST["leader_birth_date"] . "-01";
+  	}
   }
 
   if($_POST["leader_create_date"] !== "" and !bIsDate($_POST["leader_create_date"]))
@@ -152,8 +168,10 @@ if($bResult)
   if(bIsInt($_POST["leader_write_backend_user_id"], 1))
   {
   	if(!$oDB->bCheckDataByFilters(DB_PREFIX . "backend_users", array("backend_user_id" => $_POST["leader_write_backend_user_id"])))
-  	{  	  $aContentDataErrors["leader_write_backend_user_id"] = "";
-  	  $_POST["leader_write_backend_user_id"] = "";  	}
+  	{
+  	  $aContentDataErrors["leader_write_backend_user_id"] = "";
+  	  $_POST["leader_write_backend_user_id"] = "";
+  	}
   }
   else
   {
@@ -191,16 +209,24 @@ if($bResult)
   }
 
   if(isset($_POST["sex_id"]) and bIsInt($_POST["sex_id"], 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "sex", array("sex_id" => $_POST["sex_id"])))
-  {  	$iSexId = $_POST["sex_id"];  }
+  {
+  	$iSexId = $_POST["sex_id"];
+  }
   else
-  {  	$iSexId = "NULL";
-  	$_POST["sex_id"] = "";  }
+  {
+  	$iSexId = "NULL";
+  	$_POST["sex_id"] = "";
+  }
 
   if(bIsInt($_POST["city_id"], 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "cities", array("city_id" => $_POST["city_id"])))
-  {  	$iCityId = $_POST["city_id"];  }
+  {
+  	$iCityId = $_POST["city_id"];
+  }
   else
-  {  	$iCityId = "NULL";
-  	$_POST["city_id"] = "";  }
+  {
+  	$iCityId = "NULL";
+  	$_POST["city_id"] = "";
+  }
 
   $iLeaderEnabled = (int) isset($_POST["leader_enabled"]);
   $iLeaderDone = (int) isset($_POST["leader_done"]);
@@ -210,12 +236,18 @@ if($bResult)
   if(empty($aContentDataErrors))
   {
     if(strlen($_POST["leader_phone"]) === 10)
-    {      $iLeaderPhone = $_POST["leader_phone"];    }
+    {
+      $iLeaderPhone = $_POST["leader_phone"];
+    }
     else
-    {      $iLeaderPhone	= "NULL";    }
+    {
+      $iLeaderPhone	= "NULL";
+    }
 
     if($_POST["leader_question_02"] === "")
-    {      $iLeaderQuestion02 = "NULL";    }
+    {
+      $iLeaderQuestion02 = "NULL";
+    }
     else
     {
       $iLeaderQuestion02 = $_POST["leader_question_02"];
@@ -226,7 +258,9 @@ if($bResult)
   	  $sLeaderInterviewDate = "NULL";
   	}
   	else
-  	{  	  $sLeaderInterviewDate = "'" . $_POST["leader_interview_date"] . "'";  	}
+  	{
+  	  $sLeaderInterviewDate = "'" . $_POST["leader_interview_date"] . "'";
+  	}
 
   	if($_POST["leader_create_date"] === "")
   	{
@@ -330,9 +364,11 @@ WHERE
   leader_id = " . $_GET["content_id"];
     }
     else
-    {      $sSql .= ",
+    {
+      $sSql .= ",
   leader_create_backend_user_id = " . $aBackendUserInfo["backend_user_id"] . ",
-  leader_create_datetime = NOW()";    }
+  leader_create_datetime = NOW()";
+    }
 
     if($oResult = $oDB->query($sSql))
     {
@@ -366,27 +402,40 @@ WHERE
       $aOptionValues = array();
 
       foreach($aOptionIds as $iOptionId)
-      {      	if(isset($_POST["options"][$iOptionId]) and is_array($_POST["options"][$iOptionId]))
+      {
+      	if(isset($_POST["options"][$iOptionId]) and is_array($_POST["options"][$iOptionId]))
       	{
           foreach($_POST["options"][$iOptionId] as $iOptionValueId)
-          {          	if(bIsInt($iOptionValueId, 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "option_values", array("option_value_id" => $iOptionValueId, "option_id" => $iOptionId)))
-          	{          	  $aOptionValues[] = "(" . $iContentId . ", " . LEADER_CONTENT_TYPE_ID . ", " . $iOptionValueId . ")";          	}          }      	}      }
+          {
+          	if(bIsInt($iOptionValueId, 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "option_values", array("option_value_id" => $iOptionValueId, "option_id" => $iOptionId)))
+          	{
+          	  $aOptionValues[] = "(" . $iContentId . ", " . LEADER_CONTENT_TYPE_ID . ", " . $iOptionValueId . ")";
+          	}
+          }
+      	}
+      }
 
       if(!empty($aOptionValues))
-      {      	$sSql = "INSERT INTO
+      {
+      	$sSql = "INSERT INTO
   " . DB_PREFIX . "contents_option_values (content_id, content_type_id, option_value_id)
 VALUES
   " . implode(",
   ", $aOptionValues);
         if($oResult = $oDB->query($sSql))
-        {        }      }
+        {
+        }
+      }
 
       //проекты
 
       if(isset($_POST["project_name_new"], $_POST["leader_role_new"], $_POST["leader_date_from_new"], $_POST["leader_date_to_new"], $_POST["project_order_new"]) and is_array($_POST["project_name_new"]) and is_array($_POST["leader_role_new"]) and is_array($_POST["leader_date_from_new"]) and is_array($_POST["leader_date_to_new"]) and is_array($_POST["project_order_new"]))
-      {      	foreach($_POST["project_order_new"] as $iLeaderProjectId => $iProjectOrder)
-      	{      	  if(bIsInt($iProjectOrder, 1) and isset($_POST["project_name_new"][$iLeaderProjectId], $_POST["leader_role_new"][$iLeaderProjectId], $_POST["leader_date_from_new"][$iLeaderProjectId], $_POST["leader_date_to_new"][$iLeaderProjectId]))
-      	  {            if(get_magic_quotes_gpc())
+      {
+      	foreach($_POST["project_order_new"] as $iLeaderProjectId => $iProjectOrder)
+      	{
+      	  if(bIsInt($iProjectOrder, 1) and isset($_POST["project_name_new"][$iLeaderProjectId], $_POST["leader_role_new"][$iLeaderProjectId], $_POST["leader_date_from_new"][$iLeaderProjectId], $_POST["leader_date_to_new"][$iLeaderProjectId]))
+      	  {
+            if(get_magic_quotes_gpc())
             {
               $_POST["project_name_new"][$iLeaderProjectId] = stripslashes($_POST["project_name_new"][$iLeaderProjectId]);
               $_POST["leader_role_new"][$iLeaderProjectId] = stripslashes($_POST["leader_role_new"][$iLeaderProjectId]);
@@ -399,17 +448,26 @@ VALUES
             $_POST["leader_date_to_new"][$iLeaderProjectId] = trim($_POST["leader_date_to_new"][$iLeaderProjectId]);
 
             if($_POST["project_name_new"][$iLeaderProjectId] !== "")
-            {              if(bIsInt($_POST["project_name_new"][$iLeaderProjectId], 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "projects", array("project_id" => $_POST["project_name_new"][$iLeaderProjectId])))
-              {              	$iProjectId = $_POST["project_name_new"][$iLeaderProjectId];
-              	$sProjectName = "NULL";              }
+            {
+              if(bIsInt($_POST["project_name_new"][$iLeaderProjectId], 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "projects", array("project_id" => $_POST["project_name_new"][$iLeaderProjectId])))
+              {
+              	$iProjectId = $_POST["project_name_new"][$iLeaderProjectId];
+              	$sProjectName = "NULL";
+              }
               else
-              {              	$iProjectId = "NULL";
-              	$sProjectName = "'" . $oDB->escape_string($_POST["project_name_new"][$iLeaderProjectId]) . "'";              }
+              {
+              	$iProjectId = "NULL";
+              	$sProjectName = "'" . $oDB->escape_string($_POST["project_name_new"][$iLeaderProjectId]) . "'";
+              }
 
               if(bIsDate($_POST["leader_date_from_new"][$iLeaderProjectId]))
-              {              	$sLeaderDateFrom = "'" . $_POST["leader_date_from_new"][$iLeaderProjectId] . "'";              }
+              {
+              	$sLeaderDateFrom = "'" . $_POST["leader_date_from_new"][$iLeaderProjectId] . "'";
+              }
               else
-              {              	$sLeaderDateFrom = "NULL";              }
+              {
+              	$sLeaderDateFrom = "NULL";
+              }
 
               if(bIsDate($_POST["leader_date_to_new"][$iLeaderProjectId]))
               {
@@ -431,7 +489,12 @@ SET
   leader_date_to = " . $sLeaderDateTo . ",
   project_order = " . $iProjectOrder;
               if($oResult = $oDB->query($sSql))
-              {              }            }      	  }      	}      }
+              {
+              }
+            }
+      	  }
+      	}
+      }
 
       if(isset($_POST["leader_role"], $_POST["leader_date_from"], $_POST["leader_date_to"], $_POST["project_order"]) and is_array($_POST["leader_role"]) and is_array($_POST["leader_date_from"]) and is_array($_POST["leader_date_to"]) and is_array($_POST["project_order"]))
       {
@@ -564,12 +627,18 @@ WHERE
               }
 
               if(strlen($_POST["leader_phone_new"][$iRecommendationId]) === 10)
-              {              	$sLeaderPhone = $_POST["leader_phone_new"][$iRecommendationId];              }
+              {
+              	$sLeaderPhone = $_POST["leader_phone_new"][$iRecommendationId];
+              }
               else
-              {              	$sLeaderPhone = "NULL";              }
+              {
+              	$sLeaderPhone = "NULL";
+              }
 
               if(!bIsEmail($_POST["leader_email_new"][$iRecommendationId]))
-              {              	$_POST["leader_email_new"][$iRecommendationId] = "";              }
+              {
+              	$_POST["leader_email_new"][$iRecommendationId] = "";
+              }
 
               if(bIsInt($_POST["city_id_new"][$iRecommendationId], 1) and $oDB->bCheckDataByFilters(DB_PREFIX . "cities", array("city_id" => $_POST["city_id_new"][$iRecommendationId])))
               {
@@ -681,7 +750,9 @@ SET
             }
 
             if($_POST["leader_surname_old"][$iRecommendationId] !== "")
-            {              $_POST["leader_surname_old"][$iRecommendationId] = mb_strtoupper(mb_substr($_POST["leader_surname_old"][$iRecommendationId], 0, 1, "utf-8"), "utf-8") . mb_substr($_POST["leader_surname_old"][$iRecommendationId], 1, null, "utf-8");            }
+            {
+              $_POST["leader_surname_old"][$iRecommendationId] = mb_strtoupper(mb_substr($_POST["leader_surname_old"][$iRecommendationId], 0, 1, "utf-8"), "utf-8") . mb_substr($_POST["leader_surname_old"][$iRecommendationId], 1, null, "utf-8");
+            }
 
             if(bIsInt($_POST["leader_surname_old"][$iRecommendationId], 1) and $_POST["leader_surname_old"][$iRecommendationId] != $iContentId and $oDB->bCheckDataByFilters(DB_PREFIX . "leaders", array("leader_id" => $_POST["leader_surname_old"][$iRecommendationId])))
             {
@@ -752,7 +823,8 @@ WHERE
     }
   }
   else
-  {  	$aContentData = array();
+  {
+  	$aContentData = array();
     $aContentData["leader_surname"] = htmlspecialchars($_POST["leader_surname"]);
     $aContentData["leader_name"] = htmlspecialchars($_POST["leader_name"]);
     $aContentData["leader_patronymic"] = htmlspecialchars($_POST["leader_patronymic"]);
@@ -801,9 +873,43 @@ WHERE
     $aContentData["leader_question_09"] = $_POST["leader_question_09"];
 
     $_SESSION["content_data"] = $aContentData;
-    $_SESSION["content_data_errors"] = $aContentDataErrors;  }
+    $_SESSION["content_data_errors"] = $aContentDataErrors;
+  }
+}
+if (isset($_POST['leader_done_1'])) {
+  $leader_done_1 = '1';
+}else{
+  $leader_done_1 = '0';
 }
 
+if (isset($_POST['leader_done_2'])) {
+  $leader_done_2 = '1';
+}else{
+  $leader_done_2 = '0';
+}
+
+if (isset($_POST['leader_done_3'])) {
+  $leader_done_3 = '1';
+}else{
+  $leader_done_3 = '0';
+}
+
+if (isset($_POST['leader_done_4'])) {
+  $leader_done_4 = '1';
+}else{
+  $leader_done_4 = '0';
+}
+
+      $sSql = "UPDATE " . DB_PREFIX . "leaders SET leader_done_1 = ".$leader_done_1.", leader_done_2 = ".$leader_done_2.", leader_done_3 = ".$leader_done_3.", leader_done_4 = ".$leader_done_4." WHERE leader_id = " . $_GET["content_id"];
+            if($oResult = $oDB->query($sSql))
+            {
+            }
+
 header("Location: " . PROJECT_BACKEND_URL . "index.php?module_name=leaders&action_name=view" . $sUrlPostfix);
+      
+      // echo "<pre>";
+      // var_dump($_POST);
+      // echo "</pre>";
+
 
 ?>

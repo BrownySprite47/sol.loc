@@ -3,6 +3,10 @@
 $oSmarty = new cMySmarty();
 $oDB = cMyDB::oGetDB("db");
 
+// echo('<pre>');
+// var_dump($_GET);
+// echo('</pre>');
+
 $aSearch = array();
 $aSearch["date_from"] = "";
 $aSearch["date_to"] = "";
@@ -24,13 +28,19 @@ if(isset($_GET["date_from"]) and bIsDate($_GET["date_from"]) and $_GET["date_fro
 if(isset($_GET["date_to"]) and bIsDate($_GET["date_to"]) and $_GET["date_to"] <= date("Y-m-d"))
 {
   if($aSearch["date_from"] !== "" and $aSearch["date_from"] > $_GET["date_to"])
-  {  	$aSearch["date_from"] = "";  }
+  {
+  	$aSearch["date_from"] = "";
+  }
   else
-  {  	$aSearch["date_to"] = $_GET["date_to"];  }
+  {
+  	$aSearch["date_to"] = $_GET["date_to"];
+  }
 }
 
 if($aSearch["date_from"] !== "")
-{  $aWhere[] = "l.leader_create_date >= '" . $aSearch["date_from"] . "'";}
+{
+  $aWhere[] = "l.leader_create_date >= '" . $aSearch["date_from"] . "'";
+}
 
 if($aSearch["date_to"] !== "")
 {
@@ -52,8 +62,10 @@ if(isset($_GET["search_text"]))
   	$aTemp = array();
 
   	if(bIsInt($_GET["search_text"], 1))
-  	{  	  $aTemp[] = "l.leader_id = " . $_GET["search_text"];
-  	  $aTemp[] = "p_search.project_id = " . $_GET["search_text"];  	}
+  	{
+  	  $aTemp[] = "l.leader_id = " . $_GET["search_text"];
+  	  $aTemp[] = "p_search.project_id = " . $_GET["search_text"];
+  	}
 
   	if(mb_strlen($_GET["search_text"], "utf-8") > 2)
   	{
@@ -76,7 +88,7 @@ if(isset($_GET["search_text"]))
   }
 }
 
-if(isset($_GET["leader_enabled_type_id"]) and bIsInt($_GET["leader_enabled_type_id"], 1, 3))
+if(isset($_GET["leader_enabled_type_id"]) and bIsInt($_GET["leader_enabled_type_id"], 1, 100))
 {
   $aSearch["leader_enabled_type_id"] = $_GET["leader_enabled_type_id"];
 }
@@ -86,8 +98,11 @@ else
 }
 
 switch($aSearch["leader_enabled_type_id"])
-{  case "1":
-  {  	break;  }
+{
+  case "1":
+  {
+  	break;
+  }
 
   case "2":
   {
@@ -99,9 +114,10 @@ switch($aSearch["leader_enabled_type_id"])
   {
   	$aWhere[] = "l.leader_enabled = 0";
   	break;
-  }}
+  }
+}
 
-if(isset($_GET["leader_done_type_id"]) and bIsInt($_GET["leader_done_type_id"], 1, 3))
+if(isset($_GET["leader_done_type_id"]) and bIsInt($_GET["leader_done_type_id"], 1, 100))
 {
   $aSearch["leader_done_type_id"] = $_GET["leader_done_type_id"];
 }
@@ -156,8 +172,11 @@ if(isset($_GET["leader_interview_date_type_id"]) and bIsInt($_GET["leader_interv
   $aSearch["leader_interview_date_type_id"] = $_GET["leader_interview_date_type_id"];
 
   switch($aSearch["leader_interview_date_type_id"])
-  {  	case "1":
-  	{  	  break;  	}
+  {
+  	case "1":
+  	{
+  	  break;
+  	}
 
   	case "2":
   	{
@@ -183,7 +202,8 @@ if(isset($_GET["leader_interview_date_type_id"]) and bIsInt($_GET["leader_interv
   	{
   	  $aWhere[] = "l.leader_interview_date IS NULL";
   	  break;
-  	}  }
+  	}
+  }
 }
 else
 {
@@ -191,13 +211,74 @@ else
 }
 
 if(isset($_GET["leader_interview_backend_user_id"]) and bIsInt($_GET["leader_interview_backend_user_id"], 0))
-{  if($_GET["leader_interview_backend_user_id"] === "0")
-  {  	$aWhere[] = "l.leader_interview_backend_user_id IS NULL";  }
+{
+  if($_GET["leader_interview_backend_user_id"] === "0")
+  {
+  	$aWhere[] = "l.leader_interview_backend_user_id IS NULL";
+  }
   else
-  {  	$aWhere[] = "l.leader_interview_backend_user_id = " . $_GET["leader_interview_backend_user_id"];  }
+  {
+  	$aWhere[] = "l.leader_interview_backend_user_id = " . $_GET["leader_interview_backend_user_id"];
+  }
 
-  $aSearch["leader_interview_backend_user_id"] = $_GET["leader_interview_backend_user_id"];}
+  $aSearch["leader_interview_backend_user_id"] = $_GET["leader_interview_backend_user_id"];
+}
 
+// if(isset($_GET["leader_done_1"]) and bIsInt($_GET["leader_done_1"], 0))
+// {
+  if(isset($_GET["leader_done_1"]) && $_GET["leader_done_1"] === "on")
+  {
+    $leader_done_1 = '1';
+    $aWhere[] = "l.leader_done_1 = 1";
+  }
+  else
+  {
+    $leader_done_1 = '0';
+    $aWhere[] = "l.leader_done_1 = 0";
+  }
+
+  if(isset($_GET["leader_done_2"]) && $_GET["leader_done_2"] === "on")
+  {
+    $leader_done_2 = '1';
+    $aWhere[] = "l.leader_done_2 = 1";
+  }
+  else
+  {
+    $leader_done_2 = '0';
+    $aWhere[] = "l.leader_done_2 = 0";
+  }
+
+  if(isset($_GET["leader_done_3"]) && $_GET["leader_done_3"] === "on")
+  {
+    $leader_done_3 = '1';
+    $aWhere[] = "l.leader_done_3 = 1";
+  }
+  else
+  {
+    $leader_done_3 = '0';
+    $aWhere[] = "l.leader_done_3 = 0";
+  }
+
+  if(isset($_GET["leader_done_4"]) && $_GET["leader_done_4"] === "on")
+  {
+    $leader_done_4 = '1';
+    $aWhere[] = "l.leader_done_4 = 1";
+  }
+  else
+  {
+    $leader_done_4 = '0';
+    $aWhere[] = "l.leader_done_4 = 0";
+  }
+
+  $aSearch["leader_done_1"] = $leader_done_1;
+  $aSearch["leader_done_2"] = $leader_done_2;
+  $aSearch["leader_done_3"] = $leader_done_3;
+  $aSearch["leader_done_4"] = $leader_done_4;
+// }
+
+// echo('<pre>');
+// var_dump($aSearch);
+// echo('</pre>'); 
 $oSmarty->assign("aSearch", $aSearch);
 
 $aOV4Enabled = array();
@@ -245,7 +326,9 @@ if($oResult = $oDB->query($sSql))
     $aOV4All[] = $aRow["option_value_id"];
 
     if($aRow["option_value_checked"] == 1)
-    {      $aOV4Checked[] = $aRow["option_value_id"];    }
+    {
+      $aOV4Checked[] = $aRow["option_value_id"];
+    }
 
     $oSmarty->append("aOV4", $aRow);
   }
@@ -253,14 +336,18 @@ if($oResult = $oDB->query($sSql))
 }
 
 if(count($aOV4Checked) > 0 and count($aOV4All) !== count($aOV4Checked))
-{  $sJoin .= "
+{
+  $sJoin .= "
   INNER JOIN " . DB_PREFIX . "contents_option_values AS cov_search ON
     l.leader_id = cov_search.content_id AND
     cov_search.content_type_id = " . LEADER_CONTENT_TYPE_ID . " AND
-    cov_search.option_value_id IN (" . implode(", ", $aOV4Checked) . ")";}
+    cov_search.option_value_id IN (" . implode(", ", $aOV4Checked) . ")";
+}
 
 if(empty($aOV4All))
-{  $aOV4All[] = 0;}
+{
+  $aOV4All[] = 0;
+}
 
 $iContentOnPage = cConstants::sGetConstant("LEADERS_ON_BACKEND_PAGE");
 $iMaxPage = 1;
@@ -388,18 +475,24 @@ if($oResult = $oDB->query($sSql))
     $aRow["leader_question_21_small"] = htmlspecialchars($aRow["leader_question_21_small"]);
 
     if($aRow["project_names"] !== "")
-    {      $aProjects = array();
+    {
+      $aProjects = array();
 
       $aTemp = explode("###", $aRow["project_names"]);
       unset($aRow["project_names"]);
 
       foreach($aTemp as $sTemp)
-      {      	$aProjectTemp = explode("___", $sTemp);
+      {
+      	$aProjectTemp = explode("___", $sTemp);
 
       	if(count($aProjectTemp) === 2)
-      	{      	  $aProjects[] = array("project_name" => htmlspecialchars($aProjectTemp[0]), "project_id" => $aProjectTemp[1]);      	}      }
+      	{
+      	  $aProjects[] = array("project_name" => htmlspecialchars($aProjectTemp[0]), "project_id" => $aProjectTemp[1]);
+      	}
+      }
 
-      $aRow["projects"] = $aProjects;    }
+      $aRow["projects"] = $aProjects;
+    }
 
     $oSmarty->append("aContentList", $aRow);
   }

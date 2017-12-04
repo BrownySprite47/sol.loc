@@ -19,6 +19,10 @@ if(isset($_GET["content_id"]) and bIsInt($_GET["content_id"], 1))
   COALESCE(l.sex_id, '') AS sex_id,
   l.leader_city_name,
   l.leader_done,
+  l.leader_done_1,
+  l.leader_done_2,
+  l.leader_done_3,
+  l.leader_done_4,
   l.leader_enabled,
   l.leader_phone,
   l.leader_email,
@@ -83,12 +87,17 @@ LIMIT
       $iContentId = $aRow["leader_id"];
 
       if($aRow["leader_interview_date"] !== "" and $sLeaderCreateDateRecommend > $aRow["leader_interview_date"])
-      {      	$sLeaderCreateDateRecommend = $aRow["leader_interview_date"];      }
+      {
+      	$sLeaderCreateDateRecommend = $aRow["leader_interview_date"];
+      }
 
       if(($sLeaderCreateDateRecommend . " 00:00:00") > $aRow["leader_create_datetime"])
       {
       	$sLeaderCreateDateRecommend = substr($aRow["leader_create_datetime"], 0, 10);
       }
+      // echo "<pre>";
+      // var_dump($aRow);
+      // echo "</pre>";
 
       $aRow["leader_surname"] = htmlspecialchars($aRow["leader_surname"]);
       $aRow["leader_name"] = htmlspecialchars($aRow["leader_name"]);
@@ -241,7 +250,9 @@ ORDER BY
           $oSmarty->append("aRecommendationsFrom", $aRecommendationsRow);
 
           if($sLeaderCreateDateRecommend > $aRecommendationsRow["leader_create_date_recommend"])
-          {          	$sLeaderCreateDateRecommend = $aRecommendationsRow["leader_create_date_recommend"];          }
+          {
+          	$sLeaderCreateDateRecommend = $aRecommendationsRow["leader_create_date_recommend"];
+          }
         }
         $oRecommendationsResult->close();
       }
@@ -351,7 +362,9 @@ if($oResult = $oDB->query($sSql))
     unset($aRow["option_selected"]);
 
     foreach($aOptionValueId as $iTemp => $iOptionValueId)
-    {      $aRow["option_value"][$iOptionValueId] = array("option_value_id" => $iOptionValueId, "option_value" => $aOptionValue[$iTemp], "option_selected" => $aOptionSelected[$iTemp]);    }
+    {
+      $aRow["option_value"][$iOptionValueId] = array("option_value_id" => $iOptionValueId, "option_value" => $aOptionValue[$iTemp], "option_selected" => $aOptionSelected[$iTemp]);
+    }
 
     $aOptions[$aRow["option_id"]] = $aRow;
   }
@@ -379,13 +392,21 @@ $oSmarty->assign("aPageData", $aPageData);
 $oSmarty->assign("aMenu", $aMenu);
 
 if($sActionName === "view")
-{  $oSmarty->assign("sInnerPage", "backend_leaders_view");
-  $oSmarty->display("backend_main.tpl");}
+{
+  $oSmarty->assign("sInnerPage", "backend_leaders_view");
+  $oSmarty->display("backend_main.tpl");
+}
 else
-{  if($iContentId === 0)
-  {  	header("Location: " . PROJECT_BACKEND_URL . "index.php?module_name=leaders&action_name=list");  }
+{
+  if($iContentId === 0)
+  {
+  	header("Location: " . PROJECT_BACKEND_URL . "index.php?module_name=leaders&action_name=list");
+  }
   else
-  {  	$oSmarty->assign("sInnerPage", "backend_leaders_view_without_edit");
-    $oSmarty->display("backend_main.tpl");  }}
+  {
+  	$oSmarty->assign("sInnerPage", "backend_leaders_view_without_edit");
+    $oSmarty->display("backend_main.tpl");
+  }
+}
 
 ?>
