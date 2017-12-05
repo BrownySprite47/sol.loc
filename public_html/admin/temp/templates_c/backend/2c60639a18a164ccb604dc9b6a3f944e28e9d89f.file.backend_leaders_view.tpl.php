@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 21:28:32
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-04 15:14:06
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_leaders_view.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:143805a1fc016720db0-06471173%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '2c60639a18a164ccb604dc9b6a3f944e28e9d89f' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_leaders_view.tpl',
-      1 => 1512325710,
+      1 => 1512386687,
       2 => 'file',
     ),
   ),
@@ -220,7 +220,24 @@ echo $_smarty_tpl->tpl_vars['aContentData']->value['leader_question_21'];
 <tr<?php echo smarty_function_cycle(array('name'=>"content_data_01",'values'=>' class="odd",'),$_smarty_tpl);?>
 >
 <td>Статус анкеты</td>
-<td><input id="leader_high_priority" type="checkbox" name="leader_high_priority"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_high_priority']==1) {?> checked<?php }?> /> <label for="leader_high_priority">приоритетный порядок интервью</label> <input id="leader_enabled" type="checkbox" name="leader_enabled"<?php if (!isset($_smarty_tpl->tpl_vars['aContentData']->value)||$_smarty_tpl->tpl_vars['aContentData']->value['leader_enabled']==1) {?> checked<?php }?> /> <label for="leader_enabled">анкета актуальна</label> <input id="leader_done" type="checkbox" name="leader_done"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_done']==1) {?> checked<?php }?> /> <label for="leader_done">анкета заполнена</label></td>
+<td><input id="leader_high_priority" type="checkbox" name="leader_high_priority"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_high_priority']==1) {?> checked<?php }?> /> <label for="leader_high_priority">приоритетный порядок интервью</label> <input id="leader_enabled" type="checkbox" name="leader_enabled"<?php if (!isset($_smarty_tpl->tpl_vars['aContentData']->value)||$_smarty_tpl->tpl_vars['aContentData']->value['leader_enabled']==1) {?> checked<?php }?> /> <label for="leader_enabled">анкета актуальна</label></td>
+</tr>
+<tr<?php echo smarty_function_cycle(array('name'=>"content_data_01",'values'=>' class="odd",'),$_smarty_tpl);?>
+>
+<td>Заполненность анкеты</td>
+<td>
+  <!-- <input id="leader_done" type="checkbox" name="leader_done"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_done']==1) {?> checked<?php }?> />
+  <label for="leader_done">анкета заполнена</label> -->
+  <input id="leader_done_1" type="checkbox" name="leader_done_1"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_done_1']==1) {?> checked<?php }?> />
+  <label for="leader_done_1">Заполнены минимальные данные</label>
+  <input id="leader_done_2" type="checkbox" name="leader_done_2"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_done_2']==1) {?> checked<?php }?> />
+  <label for="leader_done_2">Заполнены данные для FAS</label>
+  <input id="leader_done_3" type="checkbox" name="leader_done_3"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_done_3']==1) {?> checked<?php }?> />
+  <label for="leader_done_3">Внесено все интервью</label>
+  <input id="leader_done_4" type="checkbox" name="leader_done_4"<?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value)&&$_smarty_tpl->tpl_vars['aContentData']->value['leader_done_4']==1) {?> checked<?php }?> />
+  <label for="leader_done_4">Проставлены теги</label>
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -862,7 +879,7 @@ $_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("0", null, 0);
 <td colspan="2">
 
   <input class="search_link_3" id="object_tag_new_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
-_tag" type="text" name="leader_object_new_[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
+_tag" type="text" name="leader_object_new[<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
 ]" />
   <input class="search_link_3" id="object_tag_new_<?php echo $_smarty_tpl->getVariable('smarty')->value['section']['for']['iteration'];?>
 " type="text" placeholder="наименование объекта" autocomplete="off" />

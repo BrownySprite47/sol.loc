@@ -96,7 +96,23 @@
 </tr>
 <tr{cycle name="content_data_01" values=' class="odd",'}>
 <td>Статус анкеты</td>
-<td><input id="leader_high_priority" type="checkbox" name="leader_high_priority"{if isset($aContentData) and $aContentData.leader_high_priority eq 1} checked{/if} /> <label for="leader_high_priority">приоритетный порядок интервью</label> <input id="leader_enabled" type="checkbox" name="leader_enabled"{if !isset($aContentData) or $aContentData.leader_enabled eq 1} checked{/if} /> <label for="leader_enabled">анкета актуальна</label> <input id="leader_done" type="checkbox" name="leader_done"{if isset($aContentData) and $aContentData.leader_done eq 1} checked{/if} /> <label for="leader_done">анкета заполнена</label></td>
+<td><input id="leader_high_priority" type="checkbox" name="leader_high_priority"{if isset($aContentData) and $aContentData.leader_high_priority eq 1} checked{/if} /> <label for="leader_high_priority">приоритетный порядок интервью</label> <input id="leader_enabled" type="checkbox" name="leader_enabled"{if !isset($aContentData) or $aContentData.leader_enabled eq 1} checked{/if} /> <label for="leader_enabled">анкета актуальна</label></td>
+</tr>
+<tr{cycle name="content_data_01" values=' class="odd",'}>
+<td>Заполненность анкеты</td>
+<td>
+  <!-- <input id="leader_done" type="checkbox" name="leader_done"{if isset($aContentData) and $aContentData.leader_done eq 1} checked{/if} />
+  <label for="leader_done">анкета заполнена</label> -->
+  <input id="leader_done_1" type="checkbox" name="leader_done_1"{if isset($aContentData) and $aContentData.leader_done_1 eq 1} checked{/if} />
+  <label for="leader_done_1">Заполнены минимальные данные</label>
+  <input id="leader_done_2" type="checkbox" name="leader_done_2"{if isset($aContentData) and $aContentData.leader_done_2 eq 1} checked{/if} />
+  <label for="leader_done_2">Заполнены данные для FAS</label>
+  <input id="leader_done_3" type="checkbox" name="leader_done_3"{if isset($aContentData) and $aContentData.leader_done_3 eq 1} checked{/if} />
+  <label for="leader_done_3">Внесено все интервью</label>
+  <input id="leader_done_4" type="checkbox" name="leader_done_4"{if isset($aContentData) and $aContentData.leader_done_4 eq 1} checked{/if} />
+  <label for="leader_done_4">Проставлены теги</label>
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -444,7 +460,7 @@ $(function(){
 <td style="width: 5%; text-align: center;">1</td>
 <td colspan="2">
 
-  <input class="search_link_3" id="object_tag_new_{$smarty.section.for.iteration}_tag" type="text" name="leader_object_new_[{$smarty.section.for.iteration}]" />
+  <input class="search_link_3" id="object_tag_new_{$smarty.section.for.iteration}_tag" type="text" name="leader_object_new[{$smarty.section.for.iteration}]" />
   <input class="search_link_3" id="object_tag_new_{$smarty.section.for.iteration}" type="text" placeholder="наименование объекта" autocomplete="off" />
 
 </td>

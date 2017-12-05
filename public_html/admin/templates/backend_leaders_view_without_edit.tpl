@@ -87,8 +87,11 @@
 <td>{if $aContentData.leader_enabled eq 1}+{else}-{/if}</td>
 </tr>
 <tr{cycle name="content_data_01" values=' class="odd",'}>
-<td>Анкета заполнена</td>
-<td>{if $aContentData.leader_done eq 1}+{else}-{/if}</td>
+<td>Заполненность анкеты</td>
+<td> {if $aContentData.leader_done_1 eq 1} Заполнены минимальные данные {/if}</td>
+<td> {if $aContentData.leader_done_2 eq 1} Заполнены данные для FAS {/if}</td>
+<td> {if $aContentData.leader_done_3 eq 1} Внесено все интервью {/if}</td>
+<td> {if $aContentData.leader_done_4 eq 1} Проставлены теги {/if}</td>
 </tr>
 </tbody>
 </table>

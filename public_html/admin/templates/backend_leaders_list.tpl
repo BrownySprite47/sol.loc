@@ -59,20 +59,34 @@
 </div>
 </td>
 </tr>
+
+
 <tr{cycle name="content_data" values=' class="odd",'}>
 <td>Заполненность анкеты</td>
 <td>
 <div class="wrap_input inline_input">
-<input id="leader_done_type_1" type="radio" name="leader_done_type_id" value="1"{if $aSearch.leader_done_type_id eq "1"} checked="checked"{/if} /> <label for="leader_done_type_1">все</label>
+<!-- <input id="leader_done_type_1" type="radio" name="leader_done_type_id" value="1"{if $aSearch.leader_done_type_id eq "1"} checked="checked"{/if} /> <label for="leader_done_type_1">все</label> -->
+  <input id="leader_done_1" type="checkbox" name="leader_done_1"{if $aSearch.leader_done_1 eq "1"} checked="checked"{/if} />
+  <label for="leader_done_1">Заполнены минимальные данные</label>
 </div>
 <div class="wrap_input inline_input">
-<input id="leader_done_type_2" type="radio" name="leader_done_type_id" value="2"{if $aSearch.leader_done_type_id eq "2"} checked="checked"{/if} /> <label for="leader_done_type_2">заполенные анкеты</label>
+<!-- <input id="leader_done_type_2" type="radio" name="leader_done_type_id" value="2"{if $aSearch.leader_done_type_id eq "2"} checked="checked"{/if} /> <label for="leader_done_type_2">заполенные анкеты</label> -->
+  <input id="leader_done_2" type="checkbox" name="leader_done_2"{if $aSearch.leader_done_2 eq "1"} checked="checked"{/if}/>
+  <label for="leader_done_2">Заполнены данные для FAS</label>
 </div>
 <div class="wrap_input inline_input">
-<input id="leader_done_type_3" type="radio" name="leader_done_type_id" value="3"{if $aSearch.leader_done_type_id eq "3"} checked="checked"{/if} /> <label for="leader_done_type_3">незаполненные анкеты</label>
+<!-- <input id="leader_done_type_3" type="radio" name="leader_done_type_id" value="3"{if $aSearch.leader_done_type_id eq "3"} checked="checked"{/if} /> <label for="leader_done_type_3">незаполненные анкеты</label> -->
+  <input id="leader_done_3" type="checkbox" name="leader_done_3"{if $aSearch.leader_done_3 eq "1"} checked="checked"{/if} />
+  <label for="leader_done_3">Внесено все интервью</label>
+</div>
+<div class="wrap_input inline_input">
+  <input id="leader_done_4" type="checkbox" name="leader_done_4"{if $aSearch.leader_done_4 eq "1"} checked="checked"{/if} />
+  <label for="leader_done_4">Проставлены теги</label>
 </div>
 </td>
 </tr>
+
+
 <tr{cycle name="content_data" values=' class="odd",'}>
 <td>Актуальность</td>
 <td>

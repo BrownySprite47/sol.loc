@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-03 17:47:18
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-04 13:31:30
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_leaders_list.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:112825a1fd277642bf8-03253917%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ae58753673cf95c106cd9fc8b0bc106ad6928d15' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_leaders_list.tpl',
-      1 => 1512035424,
+      1 => 1512383174,
       2 => 'file',
     ),
   ),
@@ -122,21 +122,35 @@ $_smarty_tpl->tpl_vars['item']->_loop = true;
 </div>
 </td>
 </tr>
+
+
 <tr<?php echo smarty_function_cycle(array('name'=>"content_data",'values'=>' class="odd",'),$_smarty_tpl);?>
 >
 <td>Заполненность анкеты</td>
 <td>
 <div class="wrap_input inline_input">
-<input id="leader_done_type_1" type="radio" name="leader_done_type_id" value="1"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_type_id']=="1") {?> checked="checked"<?php }?> /> <label for="leader_done_type_1">все</label>
+<!-- <input id="leader_done_type_1" type="radio" name="leader_done_type_id" value="1"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_type_id']=="1") {?> checked="checked"<?php }?> /> <label for="leader_done_type_1">все</label> -->
+  <input id="leader_done_1" type="checkbox" name="leader_done_1"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_1']=="1") {?> checked="checked"<?php }?> />
+  <label for="leader_done_1">Заполнены минимальные данные</label>
 </div>
 <div class="wrap_input inline_input">
-<input id="leader_done_type_2" type="radio" name="leader_done_type_id" value="2"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_type_id']=="2") {?> checked="checked"<?php }?> /> <label for="leader_done_type_2">заполенные анкеты</label>
+<!-- <input id="leader_done_type_2" type="radio" name="leader_done_type_id" value="2"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_type_id']=="2") {?> checked="checked"<?php }?> /> <label for="leader_done_type_2">заполенные анкеты</label> -->
+  <input id="leader_done_2" type="checkbox" name="leader_done_2"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_2']=="1") {?> checked="checked"<?php }?>/>
+  <label for="leader_done_2">Заполнены данные для FAS</label>
 </div>
 <div class="wrap_input inline_input">
-<input id="leader_done_type_3" type="radio" name="leader_done_type_id" value="3"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_type_id']=="3") {?> checked="checked"<?php }?> /> <label for="leader_done_type_3">незаполненные анкеты</label>
+<!-- <input id="leader_done_type_3" type="radio" name="leader_done_type_id" value="3"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_type_id']=="3") {?> checked="checked"<?php }?> /> <label for="leader_done_type_3">незаполненные анкеты</label> -->
+  <input id="leader_done_3" type="checkbox" name="leader_done_3"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_3']=="1") {?> checked="checked"<?php }?> />
+  <label for="leader_done_3">Внесено все интервью</label>
+</div>
+<div class="wrap_input inline_input">
+  <input id="leader_done_4" type="checkbox" name="leader_done_4"<?php if ($_smarty_tpl->tpl_vars['aSearch']->value['leader_done_4']=="1") {?> checked="checked"<?php }?> />
+  <label for="leader_done_4">Проставлены теги</label>
 </div>
 </td>
 </tr>
+
+
 <tr<?php echo smarty_function_cycle(array('name'=>"content_data",'values'=>' class="odd",'),$_smarty_tpl);?>
 >
 <td>Актуальность</td>
