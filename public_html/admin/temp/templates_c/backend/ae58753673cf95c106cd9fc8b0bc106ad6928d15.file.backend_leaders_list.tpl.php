@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-04 10:44:00
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-05 11:29:16
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_leaders_list.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:112825a1fd277642bf8-03253917%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ae58753673cf95c106cd9fc8b0bc106ad6928d15' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_leaders_list.tpl',
-      1 => 1512373438,
+      1 => 1512461400,
       2 => 'file',
     ),
   ),

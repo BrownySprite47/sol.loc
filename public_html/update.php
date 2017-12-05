@@ -11,7 +11,7 @@ $db = [
 
 
 function dbConnect() {
-    $link = @mysqli_connect('localhost', 'suppor1k_vtemp', 'G3xx*yWq', 'suppor1k_vtemp');
+    $link = @mysqli_connect('localhost', 'suppor1k_vtemp', 'G3xx*yWq', 'gb_db_leaders');
 
     if (!$link) {
         if (DEBUG) {
@@ -43,6 +43,59 @@ function getData($data){
 
     return $result;
 }
+
+// $liders = getData(dbQuery("SELECT leader_id, leader_question_10, leader_question_11, leader_question_12, leader_question_13, leader_question_14, leader_question_15, leader_question_16, leader_question_17, leader_question_18, leader_question_19, leader_question_20 FROM leaders_leaders"));
+
+
+
+
+// foreach ($liders as $key => $value) {
+//     $i = 0;
+//     if ($value['leader_question_10'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_11'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_12'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_13'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_14'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_15'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_16'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_17'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_18'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_19'] == '') {
+//         $i++;
+//     }
+//     if ($value['leader_question_20'] == '') {
+//         $i++;
+//     }
+//     $liders[$key]['количество'] = $i;
+
+//     if ($i < 6) {
+//         $sql = "UPDATE leaders_leaders SET leader_done_1 ='1', leader_done_2 ='1', leader_done_3 ='1', leader_done_4 ='1' WHERE leader_id = '{$value['leader_id']}'";
+//           echo $sql;
+//           $result = dbQuery($sql);
+//     }
+// }
+
+// $sql = "UPDATE leaders_leaders SET fio='{$value2['fio']}', familya='{$value2['familya']}', name='{$value2['name']}', otchestvo='{$value2['otchestvo']}', city='{$value2['city']}', region='{$value2['region']}', social='{$value2['social']}', contact_info='{$value2['contact_info']}', birthday='{$value2['birthday']}' WHERE id_lider='{$value2['id_lider']}'";
+//          echo $sql;
+//          $result = dbQuery($sql);
 
 // $liders = getData(dbQuery("SELECT id_lider FROM liders"));
 
