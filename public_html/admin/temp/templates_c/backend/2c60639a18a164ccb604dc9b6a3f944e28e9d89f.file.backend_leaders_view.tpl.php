@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-04 15:14:06
+<?php /* Smarty version Smarty-3.1.21-dev, created on 2017-12-06 16:14:21
          compiled from "C:\OSPanel\domains\localhost\sol.loc\public_html\admin\templates\backend_leaders_view.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:143805a1fc016720db0-06471173%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '2c60639a18a164ccb604dc9b6a3f944e28e9d89f' => 
     array (
       0 => 'C:\\OSPanel\\domains\\localhost\\sol.loc\\public_html\\admin\\templates\\backend_leaders_view.tpl',
-      1 => 1512386687,
+      1 => 1512566058,
       2 => 'file',
     ),
   ),
@@ -741,7 +741,7 @@ echo $_smarty_tpl->tpl_vars['aContentData']->value['leader_question_20'];
 </tr>
 <?php $_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("0", null, 0);?>
 
-<?php if (!empty($_smarty_tpl->tpl_vars['aTagsLiders']->value['data']['id_leader'])) {?>
+<?php if (isset($_smarty_tpl->tpl_vars['aTagsLiders']->value[0]['data']['id_leader'])) {?>
 <?php  $_smarty_tpl->tpl_vars['item'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['item']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['aTagsLiders']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
 foreach ($_from as $_smarty_tpl->tpl_vars['item']->key => $_smarty_tpl->tpl_vars['item']->value) {
@@ -762,11 +762,9 @@ $_smarty_tpl->tpl_vars["iTemp"] = new Smarty_variable("0", null, 0);
 }?></textarea></td>
 <td>
   <p><?php echo $_smarty_tpl->tpl_vars['item']->value['tag_1']['name'];?>
-</p>
-  <p><?php if ($_smarty_tpl->tpl_vars['item']->value['tag_2']['name']!='') {?> <?php echo $_smarty_tpl->tpl_vars['item']->value['tag_2']['name'];
-}?> </p>
-  <p><?php if ($_smarty_tpl->tpl_vars['item']->value['tag_3']['name']!='') {?> <?php echo $_smarty_tpl->tpl_vars['item']->value['tag_3']['name'];
-}?> </p>
+ <?php if (isset($_smarty_tpl->tpl_vars['item']->value['tag_2']['name'])) {?> / <?php echo $_smarty_tpl->tpl_vars['item']->value['tag_2']['name'];
+}?> <?php if (isset($_smarty_tpl->tpl_vars['item']->value['tag_3']['name'])) {?> / <?php echo $_smarty_tpl->tpl_vars['item']->value['tag_3']['name'];
+}?></p>
 </td>
 
 <?php if (isset($_smarty_tpl->tpl_vars['aContentData']->value['leader_id'])&&$_smarty_tpl->tpl_vars['bRecommendationDeleteEnabled']->value) {?><td><a href="<?php echo $_smarty_tpl->getConfigVariable('PROJECT_BACKEND_URL');?>

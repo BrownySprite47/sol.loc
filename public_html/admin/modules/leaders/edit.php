@@ -911,6 +911,14 @@ WHERE
   {
   }
 
+
+ // echo "<pre>";
+ //        var_dump($_POST);
+ //        echo "</pre>";
+
+if (isset($_POST['leader_object_new']) && isset($_POST['leader_tag_new'])) {
+  # code...
+
   $id_leader = $_GET["content_id"]; 
 
   $leader_object_new = $_POST['leader_object_new'];
@@ -941,13 +949,16 @@ WHERE
     $i++;
   }
 
+if (isset($tag['tag'])) {
+
+
   $tags_from_db = $tag['tag'];
   foreach ($tags_from_db as $key => $value) {
-    foreach ($value as $key => $value2) {
-      foreach ($value2 as $key => $value3) {
+    foreach ($value as $key2 => $value2) {
+      foreach ($value2 as $key3 => $value3) {
       $sSql = "SELECT * FROM " . DB_PREFIX . "tags WHERE id_name_tag_1 = " . $value3 . " OR id_name_tag_2 = " . $value3 . " OR id_name_tag_3 = " . $value3;
       if($oResult = $oDB->query($sSql)){
-        $aRow[] = $oResult->fetch_assoc();
+        $aRow[$key][] = $oResult->fetch_assoc();
       }
      }
     }
@@ -958,7 +969,6 @@ foreach ($tags_from_db as $key => $value) {
 
   foreach ($value as $key2 => $value2) {
     $tags_post[$i][] = $value2[0];
-
   }
   $i++;
 }
@@ -968,234 +978,67 @@ foreach ($tags_post as $key => $value) {
   foreach ($value as $key2 => $value2) {
     
     foreach ($aRow as $key3 => $value3) {
-      // if ($aRow[$key3]["id_name_tag_1"] == $value2) {
-      //    $result[$key3][]["id_name_tag_1"] = '1';
-      // }
-      // if ($aRow[$key3]["id_name_tag_2"] == $value2) {
-      //    $result[$key3][]["id_name_tag_1"] = '1';
-      //    $result[$key3][]["id_name_tag_2"] = '2';
-      // }
-      // if ($aRow[$key3]["id_name_tag_3"] == $value2) {
-      //    $result[$key3][]["id_name_tag_1"] = '1';
-      //    $result[$key3][]["id_name_tag_2"] = '2';
-      //    $result[$key3][]["id_name_tag_3"] = '3';
-      // }
-      if ($aRow[$key3]["id_name_tag_1"] == $value2) {
-        echo "<br> value3 - id_name_tag_1 = " . $value3['id_name_tag_1'];
-        echo "<br> value3 - id_name_tag_2 - нет = " . $value3['id_name_tag_2'];
-        echo "<br> value3 - id_name_tag_3 - нет = " . $value3['id_name_tag_3'];
-        echo "<br> value2 = " . $value2;
+      if (isset($value3[$key2]["id_name_tag_1"]) && $value3[$key2]["id_name_tag_1"] == $value2) {
+        $result[$key3][$key2]['id_name_tag_1'] = $value3[$key2]["id_name_tag_1"];
+        $result[$key3][$key2]['id_name_tag_2'] = '0';
+        $result[$key3][$key2]['id_name_tag_3'] = '0';
       }
-      if ($aRow[$key3]["id_name_tag_2"] == $value2) {
-        echo "<br> value3 - id_name_tag_1 = " . $value3['id_name_tag_1'];
-        echo "<br> value3 - id_name_tag_2  = " . $value3['id_name_tag_2'];
-        echo "<br> value3 - id_name_tag_3 - нет = " . $value3['id_name_tag_3'];
-        echo "<br> value2 = " . $value2;
+      if (isset($value3[$key2]["id_name_tag_2"]) && $value3[$key2]["id_name_tag_2"] == $value2) {
+        $result[$key3][$key2]['id_name_tag_1'] = $value3[$key2]["id_name_tag_1"];
+        $result[$key3][$key2]['id_name_tag_2'] = $value3[$key2]["id_name_tag_2"];
+        $result[$key3][$key2]['id_name_tag_3'] = '0';
       }
-      if ($aRow[$key3]["id_name_tag_3"] == $value2) {
-        echo "<br> value3 - id_name_tag_1 = " . $value3['id_name_tag_1'];
-        echo "<br> value3 - id_name_tag_2  = " . $value3['id_name_tag_2'];
-        echo "<br> value3 - id_name_tag_3  = " . $value3['id_name_tag_3'];
-        echo "<br> value2 = " . $value2;
+      if (isset($value3[$key2]["id_name_tag_3"]) && $value3[$key2]["id_name_tag_3"] == $value2) {
+        $result[$key3][$key2]['id_name_tag_1'] = $value3[$key2]["id_name_tag_1"];
+        $result[$key3][$key2]['id_name_tag_2'] = $value3[$key2]["id_name_tag_2"];
+        $result[$key3][$key2]['id_name_tag_3'] = $value3[$key2]["id_name_tag_3"];
       }
     }
   }
 }
 
+foreach ($tag['object_id'] as $key => $value) {
+    // foreach ($result as $key3 => $value3) {
+      $result[$key]['object_id'] = $value;
 
-// тут либо удалять - либо собирать новый массив!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // }
+}
+foreach ($tag['object_value'] as $key => $value) {
+    // foreach ($result as $key3 => $value3) {
+      $result[$key]['object_value'] = $value;
 
-
-// Row  некорректно собирается!! Пересмотреть как по другому собрать нужный массив!! Слишком много циклов а то !!!!
-
+    // }
+}
+  foreach ($result as $key => $value) {
+    for ($i = 0 ; $i < 5 ; $i++) {  
+      if (isset($value[$i])) {
+          $sSql = "INSERT INTO " . DB_PREFIX . "tags_leaders
+          SET
+            id_leader = " . $iContentId . ",
+            id_name_tag_1  = " . $value[$i]['id_name_tag_1'] . ",
+            id_name_tag_2  = " . $value[$i]['id_name_tag_2'] . ",
+            id_name_tag_3  = " . $value[$i]['id_name_tag_3'] . ",
+            id_name_object  = '" . $value['object_id'] . "'";
+            // echo "$sSql";
+          $oResult = $oDB->query($sSql);
+          $sSql = "INSERT INTO " . DB_PREFIX . "tags_object_leader
+          SET
+            id_lider = " . $iContentId . ",
+            value_object = '" . $value['object_value'] . "',
+            id_object   = '" . $value['object_id'] . "'";
+//           echo "$sSql";
+          $oResult = $oDB->query($sSql);
 //           echo "<pre>";
-//         var_dump($aRow);
-//         echo "</pre>";
-// foreach ($tags_post as $key => $value) {
-//   foreach ($value as $key2 => $value2) {
-//     foreach ($aRow as $key3 => $value3) {
-//       if ($aRow[$key3]['id_name_tag_1'] == $value2) {
-//         unset($aRow[$key3]['id_name_tag_2']);
-//         unset($aRow[$key3]['id_name_tag_3']);
-//       }
-//       if (isset($aRow[$key3]['id_name_tag_2']) && ($aRow[$key3]['id_name_tag_2'] == $value2)) {
-//         unset($aRow[$key3]['id_name_tag_3']);
-//       }
-//       if (isset($aRow[$key3]['id_name_tag_3']) && ($aRow[$key3]['id_name_tag_3'] == $value2)) {
-//         # code...
-//       }
-//     }
-//   }
-// }
-
-
-
-
-
-
-  // foreach ($tags_from_db as $key => $value) {
-  //   foreach ($value as $key2 => $value2) {
-  //     foreach ($value2 as $key3 => $value3) {
-  //       foreach ($aRow as $key4 => $value4) {
-  //         echo "<pre>";
-  //       var_dump($value4);
-  //       echo "</pre>";
-  //         if ($value3["id_name_tag_1"] == $value4["id_name_tag_1"]) {
-  //           unset($tags_from_db[$key][$key2][$key3]["id_name_tag_2"]);
-  //           unset($tags_from_db[$key][$key2][$key3]["id_name_tag_3"]);
-  //         }
-
-  //         if ($value3["id_name_tag_2"] == $value4["id_name_tag_2"]) {
-  //           unset($tags_from_db[$key][$key2][$key3]["id_name_tag_3"]);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
- echo "<pre>";
-        var_dump($result);
-        echo "</pre>";
-
-
- echo "<pre>";
-        var_dump($tags_post); // правильный массив тегов
-        echo "</pre>";
-
-
-            echo "<pre>";
-        var_dump($aRow);
-        echo "</pre>";
-
-
-
-        //   echo "<pre>";
-        // var_dump($aRow);
-        // echo "</pre>";
-
-// array(3) {
-//   ["object_id"]=>
-//   array(1) {
-//     [0]=>
-//     string(1) "1"
-//   }
-//   ["object_value"]=>
-//   array(1) {
-//     [0]=>
-//     string(20) "Ð¿Ð°Ð²Ð¿Ð°Ð¸Ð²Ð°Ð¿Ð¸"
-//   }
-//   ["tag"]=>
-//   array(1) {
-//     [0]=>
-//     array(4) {
-//       [0]=>
-//       array(1) {
-//         [0]=>
-//         string(2) "11"
-//       }
-//       [1]=>
-//       array(1) {
-//         [0]=>
-//         string(1) "6"
-//       }
-//       [2]=>
-//       array(1) {
-//         [0]=>
-//         string(1) "4"
-//       }
-//       [3]=>
-//       array(1) {
-//         [0]=>
-//         string(2) "12"
-//       }
-//     }
-//   }
-// }
-
-
-  // $leader_tag_new_2 = $_POST['leader_tag_new'][2];
-
-  // foreach ($leader_tag_new_2 as $key => $value) {
-  //   if ($value != '') {
-  //     $leader_tag_new_2_arr[] = $value;
-  //   }
-  // }
-
-  // $leader_tag_new_3 = $_POST['leader_tag_new'][3];
-
-  // foreach ($leader_tag_new_3 as $key => $value) {
-  //   if ($value != '') {
-  //     $leader_tag_new_3_arr[] = $value;
-  //   }
-  // }
-
-  // $leader_tag_new_4 = $_POST['leader_tag_new'][4];
-
-  // foreach ($leader_tag_new_4 as $key => $value) {
-  //   if ($value != '') {
-  //     $leader_tag_new_4_arr[] = $value;
-  //   }
-  // }
-
-  // $leader_tag_new_5 = $_POST['leader_tag_new'][5];
-
-  // foreach ($leader_tag_new_5 as $key => $value) {
-  //   if ($value != '') {
-  //     $leader_tag_new_5_arr[] = $value;
-  //   }
-  // }
-
-// $arr[] = $leader_object_new_arr;
-// $arr[] = $object_value_new_arr;
-// $arr[] = $leader_tag_new_1_arr;
-// $arr[] = $leader_tag_new_2_arr;
-// $arr[] = $leader_tag_new_3_arr;
-// $arr[] = $leader_tag_new_4_arr;
-// $arr[] = $leader_tag_new_5_arr;
-
-// echo "<pre>";
-// var_dump($tag);
+//     print_r($value);
 // echo "</pre>";
-
-  // $sSql = "SELECT * FROM " . DB_PREFIX . "tags WHERE id_name_tag_1 = " . $_POST["leader_tag_new"][1][1] . " OR id_name_tag_3 = " . $_POST["leader_tag_new"][1][1] . " OR id_name_tag_3 = " . $_POST["leader_tag_new"][1][1];
-  // $oResult = $oDB->query($sSql);
-
-
-
-  // $sSql = "SELECT * FROM " . DB_PREFIX . "tags WHERE id_name_tag_1 = " . $_POST["leader_tag_new"][1][1] . " OR id_name_tag_3 = " . $_POST["leader_tag_new"][1][1] . " OR id_name_tag_3 = " . $_POST["leader_tag_new"][1][1];
-  // $oResult = $oDB->query($sSql);
-
-  // if (!empty($_POST['leader_object_new'][1])) {
-
-  //   $id_name_object = $_POST['leader_object_new'][1];
-  //   $id_name_tag_1 = $_POST['leader_object_new'][1];
-  //   $id_name_tag_2
-  //   $id_name_tag_3
-    
-
-  //   $sSql = "INSERT INTO " . DB_PREFIX . "tags_leaders (id_leader, id_name_tag_1, id_name_tag_2, id_name_tag_3, id_name_object) VALUES (".$id_leader.", ".$id_name_tag_1.", ".$id_name_tag_2.", ".$id_name_tag_3.", ".$id_name_object.")";
-  //   $oResult = $oDB->query($sSql);
-
-  //     if (!empty($_POST['leader_object_new'][2])) {
-
-  //       $id_name_object = $_POST['leader_object_new'][2];
-
-  //       $sSql = "INSERT INTO " . DB_PREFIX . "tags_leaders (id_leader, id_name_tag_1, id_name_tag_2, id_name_tag_3, id_name_object) VALUES (".$id_leader.", ".$id_name_tag_1.", ".$id_name_tag_2.", ".$id_name_tag_3.", ".$id_name_object.")";
-  //       $oResult = $oDB->query($sSql);
-
-  //         if (!empty($_POST['leader_object_new'][3])) {
-
-  //           $id_name_object = $_POST['leader_object_new'][3];
-
-  //           $sSql = "INSERT INTO " . DB_PREFIX . "tags_leaders (id_leader, id_name_tag_1, id_name_tag_2, id_name_tag_3, id_name_object) VALUES (".$id_leader.", ".$id_name_tag_1.", ".$id_name_tag_2.", ".$id_name_tag_3.", ".$id_name_object.")";
-  //           $oResult = $oDB->query($sSql);
-
-  //         }
-  //     }
-  // }
-
-
-
+      }
+    }
+  }
+}
+}
+// echo "<pre>";
+//     print_r($result);
+// echo "</pre>";
 header("Location: " . PROJECT_BACKEND_URL . "index.php?module_name=leaders&action_name=view" . $sUrlPostfix);
 
 ?>

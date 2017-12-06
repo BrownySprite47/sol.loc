@@ -401,7 +401,7 @@ $(function(){
 </tr>
 {assign var="iTemp" value="0"}
 
-{if !empty($aTagsLiders.data.id_leader)}
+{if isset($aTagsLiders.0.data.id_leader)}
 {foreach from=$aTagsLiders item=item}
 {if $iTemp eq 0}{assign var="iTemp" value="1"}{else}{assign var="iTemp" value="0"}{/if}
 {if $item.data.id_leader ne ""}
@@ -410,9 +410,7 @@ $(function(){
 <td colspan="2"><p>{$item.object.name.name}</p></td>
 <td><textarea name="object_value_old[{$item.id}]">{if isset($item.object.value.value_object)} {$item.object.value.value_object}{/if}</textarea></td>
 <td>
-  <p>{$item.tag_1.name}</p>
-  <p>{if $item.tag_2.name ne ""} {$item.tag_2.name}{/if} </p>
-  <p>{if $item.tag_3.name ne ""} {$item.tag_3.name}{/if} </p>
+  <p>{$item.tag_1.name} {if isset($item.tag_2.name)} / {$item.tag_2.name}{/if} {if isset($item.tag_3.name)} / {$item.tag_3.name}{/if}</p>
 </td>
 
 {if isset($aContentData.leader_id) and $bRecommendationDeleteEnabled}<td><a href="{#PROJECT_BACKEND_URL#}index.php?module_name=leaders&action_name=recommendation_delete&content_id={$item.id}" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="{#PROJECT_BACKEND_URL#}images/delete.png" alt="Удалить" /></a></td>{/if}

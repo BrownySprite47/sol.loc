@@ -230,7 +230,7 @@ if(isset($_GET["leader_done_1"]) && $_GET["leader_done_1"] === "on")
   else
   {
     $leader_done_1 = '0';
-    $aWhere[] = "l.leader_done_1 = 0";
+    //$aWhere[] = "l.leader_done_1 = 0";
   }
 
   if(isset($_GET["leader_done_2"]) && $_GET["leader_done_2"] === "on")
@@ -241,7 +241,7 @@ if(isset($_GET["leader_done_1"]) && $_GET["leader_done_1"] === "on")
   else
   {
     $leader_done_2 = '0';
-    $aWhere[] = "l.leader_done_2 = 0";
+    //$aWhere[] = "l.leader_done_2 = 0";
   }
 
   if(isset($_GET["leader_done_3"]) && $_GET["leader_done_3"] === "on")
@@ -252,7 +252,7 @@ if(isset($_GET["leader_done_1"]) && $_GET["leader_done_1"] === "on")
   else
   {
     $leader_done_3 = '0';
-    $aWhere[] = "l.leader_done_3 = 0";
+    //$aWhere[] = "l.leader_done_3 = 0";
   }
 
   if(isset($_GET["leader_done_4"]) && $_GET["leader_done_4"] === "on")
@@ -263,7 +263,7 @@ if(isset($_GET["leader_done_1"]) && $_GET["leader_done_1"] === "on")
   else
   {
     $leader_done_4 = '0';
-    $aWhere[] = "l.leader_done_4 = 0";
+    //$aWhere[] = "l.leader_done_4 = 0";
   }
 
   $aSearch["leader_done_1"] = $leader_done_1;

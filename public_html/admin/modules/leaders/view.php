@@ -393,7 +393,7 @@ $oSmarty->assign("aMenu", $aMenu);
 
 $sSql = "SELECT * FROM " . DB_PREFIX . "tags_leaders WHERE id_leader = '".htmlspecialchars($_GET["content_id"])."'";
 
-
+// $aTagsLiders['id_leader'] = htmlspecialchars($_GET["content_id"]);
 if($oResult = $oDB->query($sSql))
 {
   $i = 0;
@@ -405,17 +405,22 @@ if($oResult = $oDB->query($sSql))
     $sSqlObjects = "SELECT * FROM " . DB_PREFIX . "tags_objects WHERE id = '".$aRow['id_name_object']."'";
     if($oResultObjects = $oDB->query($sSqlObjects))
     {
+
       while($aObjects = $oResultObjects->fetch_assoc())
       {
         $aTagsLiders[$i]['object']['name'] = $aObjects;
       }
     }
 
-    $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id = '".$aRow['id_name_object']."'";
+    $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id_object  = '".$aRow['id_name_object']."' AND id_lider  = '".htmlspecialchars($_GET["content_id"])."'";
     if($oResultTags = $oDB->query($sSqlTags))
     {
+
       while($aTags = $oResultTags->fetch_assoc())
       {
+//                 echo "<pre>";
+//     print_r($aObjects);
+// echo "</pre>";
         $aTagsLiders[$i]['object']['value'] = $aTags;
       }
     }
@@ -450,9 +455,9 @@ if($oResult = $oDB->query($sSql))
     $i++;
   }
   $oResult->close();
-// echo "<pre>";
-//     print_r($aTagsLiders);
-// echo "</pre>";
+echo "<pre>";
+    print_r($aTagsLiders);
+echo "</pre>";
 if(isset($aTagsLiders) && !empty($aTagsLiders))
 {
   $oSmarty->assign("aTagsLiders", $aTagsLiders);
@@ -474,7 +479,7 @@ if($oResult = $oDB->query($sSql))
   }
   $oResult->close();
 // echo "<pre>";
-//     print_r($aTags);
+//     print_r($aTagsLiders);
 // echo "</pre>";
 
 $oSmarty->assign("aTags", $aTags);
@@ -499,5 +504,7 @@ else
     $oSmarty->display("backend_main.tpl");
   }
 }
-
+// echo "<pre>";
+//     print_r($aTagsLiders);
+// echo "</pre>";
 ?>
