@@ -46,6 +46,20 @@ function getData($data){
 
 // $liders = getData(dbQuery("SELECT leader_id, leader_question_10, leader_question_11, leader_question_12, leader_question_13, leader_question_14, leader_question_15, leader_question_16, leader_question_17, leader_question_18, leader_question_19, leader_question_20 FROM leaders_leaders"));
 
+$liders = getData(dbQuery("SELECT leader_id, leader_done FROM leaders_leaders"));
+
+
+
+
+
+foreach ($liders as $key => $value) {
+    if ($value['leader_done'] == '1') {
+        $sql = "UPDATE leaders_leaders SET leader_done_1 ='1' WHERE leader_id = '{$value['leader_id']}'";
+          echo $sql;
+          $result = dbQuery($sql);
+    }
+}
+
 
 
 
