@@ -395,58 +395,74 @@ $(function(){
 <tbody>
 <tr>
 <th style="width: 30%;" colspan="3"><strong>Наименование объекта</strong></th>
-<th style="width: 40%;"><strong>Значение объекта <!-- <div class="info white"><span>Почему Вы его рекомендуете, как ЛИСС? Какие проблемы он решает? Почему Вы думаете, что он действительно решает социальные проблемы? Насколько Вы ему доверяете как человеку и как профессионалу?</span></div> --></strong></th>
-<th style="width: 30%;"><strong>Колонка под теги</strong></th>
+<th style="width: 35%;"><strong>Значение объекта <!-- <div class="info white"><span>Почему Вы его рекомендуете, как ЛИСС? Какие проблемы он решает? Почему Вы думаете, что он действительно решает социальные проблемы? Насколько Вы ему доверяете как человеку и как профессионалу?</span></div> --></strong></th>
+<th style="width: 45%;"><strong>Колонка под теги</strong></th>
 {if isset($aContentData.leader_id, $aRecommendations) and $bRecommendationDeleteEnabled}<th class="small"></th>{/if}
 </tr>
 {assign var="iTemp" value="0"}
 
-{if isset($aTagsLiders.0.data.id_leader)}
-{foreach from=$aTagsLiders item=item}
+{if isset($aTagsLiders[0].data.id_leader)}
+{foreach from=$aTagsLiders item=item key=index name=count}
+{assign var="num" value=$smarty.foreach.count.index+1}
 {if $iTemp eq 0}{assign var="iTemp" value="1"}{else}{assign var="iTemp" value="0"}{/if}
 {if $item.data.id_leader ne ""}
 <tr{if $iTemp eq 1} class="odd"{/if}>
-<td style="width: 5%; text-align: center;">1</td>
-<td colspan="2"><p>{$item.object.name.name}</p></td>
-<td><textarea name="object_value_old[{$item.id}]">{if isset($item.object.value.value_object)} {$item.object.value.value_object}{/if}</textarea></td>
+<td style="width: 5%; text-align: center;">{$num}</td>
+<td colspan="2">
+  <p>{$item.object.name.name}</p>
+    <input style="display: none;" class="search_link_4" id="object_value_old_1_{$num}_tag" type="text" name="leader_object_old[{$num}]" value="{$item.data.id_name_object}" />
+</td>
+<td><textarea rows="10" name="object_value_old[{$num}]">{if isset($item.object.value.value_object)}{$item.object.value.value_object}{/if}</textarea></td>
 <td>
-  <p>{$item.tag_1.name} {if isset($item.tag_2.name)} / {$item.tag_2.name}{/if} {if isset($item.tag_3.name)} / {$item.tag_3.name}{/if}</p>
+  {foreach from=$item item=item1}
+    <p>{if isset($item1.tag_1.name)} {$item1.tag_1.name}{/if} {if isset($item1.tag_2.name)} / {$item1.tag_2.name}{/if} {if isset($item1.tag_3.name)} / {$item1.tag_3.name}{/if}</p>
+  {/foreach}
+
+  <input style="display: none;" class="search_link_4" id="tag_old_1_{$num}_tag" type="text" name="leader_tag_old[{$num}][1]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_old_1_{$num}" type="text" placeholder="наименование тега" autocomplete="off" />
+
+  <input style="display: none;" class="search_link_4" id="tag_old_2_{$num}_tag" type="text" name="leader_tag_old[{$num}][2]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_old_2_{$num}" type="text" placeholder="наименование тега" autocomplete="off" />
+
+  <input style="display: none;" class="search_link_4" id="tag_old_3_{$num}_tag" type="text" name="leader_tag_old[{$num}][3]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_old_3_{$num}" type="text" placeholder="наименование тега" autocomplete="off" />
 </td>
 
-{if isset($aContentData.leader_id) and $bRecommendationDeleteEnabled}<td><a href="{#PROJECT_BACKEND_URL#}index.php?module_name=leaders&action_name=recommendation_delete&content_id={$item.id}" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="{#PROJECT_BACKEND_URL#}images/delete.png" alt="Удалить" /></a></td>{/if}
+{if isset($aTagsLiders[0].data.id_leader)}<td><a href="javascript:void(0);" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="{#PROJECT_BACKEND_URL#}images/delete.png" alt="Удалить" /></a></td>{/if}
+<!-- {if isset($aContentData.leader_id) and $bRecommendationDeleteEnabled}<td><a href="{#PROJECT_BACKEND_URL#}index.php?module_name=leaders&action_name=recommendation_delete&content_id={$item.id}" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="{#PROJECT_BACKEND_URL#}images/delete.png" alt="Удалить" /></a></td>{/if} -->
 </tr>
 {else}
 <tr{if $iTemp eq 1} class="odd"{/if}>
-<td style="width: 5%; text-align: center;">1</td>
+<td style="width: 5%; text-align: center;"></td>
 <td colspan="2">
 
-  <input class="search_link_3" id="object_tag_old_{$item.id}_tag" type="text" name="leader_object_old[{$item.recommendation_id}]" value="{$item.leader_surname}" />
+  <input class="search_link_3" id="object_tag_old_{$item.id}_tag" type="text" name="leader_object[{$item.recommendation_id}]" value="{$item.leader_surname}" />
   <input class="search_link_3" id="object_tag_old_{$item.id}" type="text" value="{$item.leader_surname}" placeholder="наименование объекта" autocomplete="off" />
 
 </td>
-<td><textarea rows="7" placeholder="значение объекта" name="recommendation_comment_old[{$item.recommendation_id}]">{$item.recommendation_comment}</textarea></td>
+<td><textarea rows="10" placeholder="значение объекта" name="recommendation_comment_old[{$item.recommendation_id}]">{$item.recommendation_comment}</textarea></td>
 <td>
   <br>
-    <input class="search_link_4" id="tag_old_1_{$item.id}_tag" type="text" name="leader_tag_old[{$item.recommendation_id}][1]" />
+<!--     <input class="search_link_4" id="tag_old_1_{$item.id}_tag" type="text" name="leader_tag[{$item.recommendation_id}][1]" />
     <input class="search_link_4" id="tag_old_1_{$item.id}" type="text" value="{$item.leader_surname}" placeholder="наименование тега" autocomplete="off" />
 
-    <input class="search_link_4" id="tag_old_2_{$item.id}_tag" type="text" name="leader_tag_old[{$item.recommendation_id}][2]" value="{$item.leader_surname}" />
+    <input class="search_link_4" id="tag_old_2_{$item.id}_tag" type="text" name="leader_tag[{$item.recommendation_id}][2]" value="{$item.leader_surname}" />
     <input class="search_link_4" id="tag_old_2_{$item.id}" type="text" value="{$item.leader_surname}" placeholder="наименование тега" autocomplete="off" />
 
-    <input class="search_link_4" id="tag_old_3_{$item.id}_tag" type="text" name="leader_tag_old[{$item.recommendation_id}][3]" value="{$item.leader_surname}" />
+    <input class="search_link_4" id="tag_old_3_{$item.id}_tag" type="text" name="leader_tag[{$item.recommendation_id}][3]" value="{$item.leader_surname}" />
     <input class="search_link_4" id="tag_old_3_{$item.recommendation_id}" type="text" value="{$item.leader_surname}" placeholder="наименование тега" autocomplete="off" />
 
-    <input class="search_link_4" id="tag_old_4_{$item.recommendation_id}_tag" type="text" name="leader_tag_old[{$item.recommendation_id}][4]" value="{$item.leader_surname}" />
+    <input class="search_link_4" id="tag_old_4_{$item.recommendation_id}_tag" type="text" name="leader_tag[{$item.recommendation_id}][4]" value="{$item.leader_surname}" />
     <input class="search_link_4" id="tag_old_4_{$item.recommendation_id}" type="text" value="{$item.leader_surname}" placeholder="наименование тега" autocomplete="off" />
 
-    <input class="search_link_4" id="tag_old_5_{$item.recommendation_id}_tag" type="text" name="leader_tag_old[{$item.recommendation_id}][5]" value="{$item.leader_surname}" />
-    <input class="search_link_4" id="tag_old_5_{$item.recommendation_id}" type="text" value="{$item.leader_surname}" placeholder="наименование тега" autocomplete="off" />
+    <input class="search_link_4" id="tag_old_5_{$item.recommendation_id}_tag" type="text" name="leader_tag[{$item.recommendation_id}][5]" value="{$item.leader_surname}" />
+    <input class="search_link_4" id="tag_old_5_{$item.recommendation_id}" type="text" value="{$item.leader_surname}" placeholder="наименование тега" autocomplete="off" /> -->
 
     <br>
     <br>
 </td>
 
-{if isset($aContentData.leader_id) and $bRecommendationDeleteEnabled}<td rowspan="6"><a href="{#PROJECT_BACKEND_URL#}index.php?module_name=leaders&action_name=recommendation_delete&content_id={$item.recommendation_id}" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="{#PROJECT_BACKEND_URL#}images/delete.png" alt="Удалить" /></a></td>{/if}
+<!-- {if isset($aContentData.leader_id)}<td rowspan="6"><a href="{#PROJECT_BACKEND_URL#}index.php?module_name=leaders&action_name=recommendation_delete&content_id={$item.recommendation_id}" onclick="return confirm('Вы уверены, что хотите удалить?');"><img src="{#PROJECT_BACKEND_URL#}images/delete.png" alt="Удалить" /></a></td>{/if} -->
 </tr>
 {/if}
 {/foreach}
@@ -455,30 +471,30 @@ $(function(){
 {section name=for loop=3}
 {if $iTemp eq 0}{assign var="iTemp" value="1"}{else}{assign var="iTemp" value="0"}{/if}
 <tr{if $iTemp eq 1} class="odd"{/if}>
-<td style="width: 5%; text-align: center;">1</td>
+<td style="width: 5%; text-align: center;"></td>
 <td colspan="2">
 
-  <input class="search_link_3" id="object_tag_new_{$smarty.section.for.iteration}_tag" type="text" name="leader_object_new[{$smarty.section.for.iteration}]" />
+  <input style="display: none; " class="search_link_3" id="object_tag_new_{$smarty.section.for.iteration}_tag" type="text" name="leader_object_new[{$smarty.section.for.iteration}]" />
   <input class="search_link_3" id="object_tag_new_{$smarty.section.for.iteration}" type="text" placeholder="наименование объекта" autocomplete="off" />
 
 </td>
-<td><textarea placeholder="значение объекта" rows="7" name="object_value_new[{$smarty.section.for.iteration}]"></textarea></td>
+<td><textarea placeholder="значение объекта" rows="10" name="object_value_new[{$smarty.section.for.iteration}]"></textarea></td>
 <td>
   <br>
-  <input class="search_link_4" id="tag_new_1_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][1]" />
-  <input class="search_link_4" id="tag_new_1_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
+  <input style="display: none; " class="search_link_4" id="tag_new_1_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][1]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_new_1_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
 
-  <input class="search_link_4" id="tag_new_2_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][2]" />
-  <input class="search_link_4" id="tag_new_2_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
+  <input style="display: none; " class="search_link_4" id="tag_new_2_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][2]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_new_2_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
 
-  <input class="search_link_4" id="tag_new_3_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][3]" />
-  <input class="search_link_4" id="tag_new_3_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
+  <input style="display: none; " class="search_link_4" id="tag_new_3_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][3]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_new_3_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
 
-  <input class="search_link_4" id="tag_new_4_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][4]" />
-  <input class="search_link_4" id="tag_new_4_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
+  <input style="display: none; " class="search_link_4" id="tag_new_4_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][4]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_new_4_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
 
-  <input class="search_link_4" id="tag_new_5_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][5]" />
-  <input class="search_link_4" id="tag_new_5_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
+  <input style="display: none; " class="search_link_4" id="tag_new_5_{$smarty.section.for.iteration}_tag" type="text" name="leader_tag_new[{$smarty.section.for.iteration}][5]" />
+  <input style="margin: 5px 0;" class="search_link_4" id="tag_new_5_{$smarty.section.for.iteration}" type="text" placeholder="наименование тега" autocomplete="off" />
   <br>
   <br>
 </td>

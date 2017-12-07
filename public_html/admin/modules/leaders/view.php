@@ -399,6 +399,7 @@ if($oResult = $oDB->query($sSql))
   $i = 0;
   while($aRow = $oResult->fetch_assoc())
   {
+    if (!empty($aRow)) {
 
     $aTagsLiders[$i]['data'] = $aRow;
 
@@ -415,49 +416,72 @@ if($oResult = $oDB->query($sSql))
     $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id_object  = '".$aRow['id_name_object']."' AND id_lider  = '".htmlspecialchars($_GET["content_id"])."'";
     if($oResultTags = $oDB->query($sSqlTags))
     {
-
+      // $aTags1 = $oResultTags->fetch_assoc()
       while($aTags = $oResultTags->fetch_assoc())
       {
-//                 echo "<pre>";
-//     print_r($aObjects);
-// echo "</pre>";
         $aTagsLiders[$i]['object']['value'] = $aTags;
       }
     }
-
+//                 echo "<pre>";
+//     print_r($aObjects);
+// echo "</pre>";
     $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_names WHERE id = '".$aRow['id_name_tag_1']."'";
     if($oResultTags = $oDB->query($sSqlTags))
     {
+      $k = 0;
       while($aTags = $oResultTags->fetch_assoc())
       {
-        $aTagsLiders[$i]['tag_1'] = $aTags;
+        $aTagsLiders[$i][$k]['tag_1'] = $aTags;
+        $k++;
       }
     }
 
     $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_names WHERE id = '".$aRow['id_name_tag_2']."'";
     if($oResultTags = $oDB->query($sSqlTags))
     {
+      $k = 0;
       while($aTags = $oResultTags->fetch_assoc())
       {
-        $aTagsLiders[$i]['tag_2'] = $aTags;
+        $aTagsLiders[$i][$k]['tag_2'] = $aTags;
+        $k++;
       }
     }
 
     $sSqlTags = "SELECT * FROM " . DB_PREFIX . "tags_names WHERE id = '".$aRow['id_name_tag_3']."'";
     if($oResultTags = $oDB->query($sSqlTags))
     {
+      $k = 0;
       while($aTags = $oResultTags->fetch_assoc())
       {
-        $aTagsLiders[$i]['tag_3'] = $aTags;
+        $aTagsLiders[$i][$k]['tag_3'] = $aTags;
+        $k++;
       }
     }    
 
     $i++;
   }
-  $oResult->close();
-echo "<pre>";
-    print_r($aTagsLiders);
-echo "</pre>";
+  }
+  //   echo "<pre>";
+  //   print_r($aTagsLiders);
+  // echo "</pre>";
+
+  if (!empty($aTagsLiders)) {
+  foreach ($aTagsLiders as $i => $arr1) {
+    foreach ($aTagsLiders as $k => $arr2) {
+      if ($k > $i) {
+        if ($arr1['data']['id_name_object'] == $arr2['data']['id_name_object']) {
+          unset($aTagsLiders[$k]['data']);
+          unset($aTagsLiders[$k]['object']);
+          $aTagsLiders[$i] = array_merge($aTagsLiders[$i], $aTagsLiders[$k]);
+          unset($aTagsLiders[$k]);
+        }
+      }
+    }
+  }
+}
+  //   echo "<pre>";
+  //   print_r($aTagsLiders);
+  // echo "</pre>";
 if(isset($aTagsLiders) && !empty($aTagsLiders))
 {
   $oSmarty->assign("aTagsLiders", $aTagsLiders);

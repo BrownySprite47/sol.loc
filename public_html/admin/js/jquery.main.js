@@ -147,7 +147,7 @@ function vSearch(sInputId, iTypeId)
           aItem.content_name = aItem.content_name + " (" + aItem.content_name_other + ")";
         }
         if (aItem.content_tag == '1') {
-          console.log(aItem.content_name);
+          //console.log(aItem.content_name);
             sResultText = sResultText + '<tr' + sClass + '><td><p>' + aItem.content_name + '</p></td><td class="small"><a href="#" onclick="vSetSearchData(\'' + sInputId + '\', ' + aItem.content_id + ', \'' + aItem.content_name + '\'); return false;">выбрать</a></td></tr>';
         }else{
             sResultText = sResultText + '<tr' + sClass + '><td><a href="' + aItem.content_url + '" target="_blank">' + aItem.content_name + '</a></td><td class="small"><a href="#" onclick="vSetSearchData(\'' + sInputId + '\', ' + aItem.content_id + '); return false;">выбрать</a></td></tr>';

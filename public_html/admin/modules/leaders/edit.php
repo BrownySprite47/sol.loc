@@ -2,8 +2,10 @@
 
 $sUrlPostfix = "";
 
+
+
 // echo "<pre>";
-// var_dump($_POST);
+//   print_r($_POST);
 // echo "</pre>";
 
 $aPostData = array();
@@ -916,9 +918,13 @@ WHERE
  //        var_dump($_POST);
  //        echo "</pre>";
 
-if (isset($_POST['leader_object_new']) && isset($_POST['leader_tag_new'])) {
-  # code...
 
+// echo "<pre>";
+//   print_r($_POST["object_value_old"]);
+// echo "</pre>";
+
+if (isset($_POST['leader_object_new']) && isset($_POST['leader_tag_new']) && isset($_POST['object_value_new'])) {
+  # code...
   $id_leader = $_GET["content_id"]; 
 
   $leader_object_new = $_POST['leader_object_new'];
@@ -934,6 +940,8 @@ if (isset($_POST['leader_object_new']) && isset($_POST['leader_tag_new'])) {
   foreach ($object_value_new as $key => $value) {
     if ($value != '') {
       $tag['object_value'][] = $value;
+    }else{
+      $tag['object_value'][] = " ";
     }
   }
 
@@ -973,7 +981,9 @@ foreach ($tags_from_db as $key => $value) {
   $i++;
 }
 
-
+ // echo "<pre>";
+ //        var_dump($tags_post);
+ //        echo "</pre>";
 foreach ($tags_post as $key => $value) {
   foreach ($value as $key2 => $value2) {
     
@@ -996,22 +1006,35 @@ foreach ($tags_post as $key => $value) {
     }
   }
 }
-
+  if (isset($tag['object_id'])) {
 foreach ($tag['object_id'] as $key => $value) {
     // foreach ($result as $key3 => $value3) {
       $result[$key]['object_id'] = $value;
 
     // }
 }
+}
+  if (isset($tag['object_value'])) {
 foreach ($tag['object_value'] as $key => $value) {
     // foreach ($result as $key3 => $value3) {
-      $result[$key]['object_value'] = $value;
+
+   $result[$key]['object_value'] = trim($value);
+
+      
 
     // }
 }
+}
+
+ // echo "<pre>";
+ //        var_dump($result);
+ //        echo "</pre>";
+  if (isset($tag['object_id']) && isset($tag['object_value'])) {
+  # code...
+
   foreach ($result as $key => $value) {
     for ($i = 0 ; $i < 5 ; $i++) {  
-      if (isset($value[$i])) {
+      if (isset($value[$i]['id_name_tag_1'])) {
           $sSql = "INSERT INTO " . DB_PREFIX . "tags_leaders
           SET
             id_leader = " . $iContentId . ",
@@ -1021,21 +1044,211 @@ foreach ($tag['object_value'] as $key => $value) {
             id_name_object  = '" . $value['object_id'] . "'";
             // echo "$sSql";
           $oResult = $oDB->query($sSql);
-          $sSql = "INSERT INTO " . DB_PREFIX . "tags_object_leader
-          SET
-            id_lider = " . $iContentId . ",
-            value_object = '" . $value['object_value'] . "',
-            id_object   = '" . $value['object_id'] . "'";
-//           echo "$sSql";
-          $oResult = $oDB->query($sSql);
-//           echo "<pre>";
-//     print_r($value);
+
+           $sSql = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id_object = " . $value['object_id'] . " AND id_lider = '" . $iContentId . "'";
+            $oResult = $oDB->query($sSql);
+            $aRow = $oResult->fetch_assoc();
+            if (empty($aRow)) {
+              if (!isset($value['object_value'])) {
+                $value['object_value'] = ' ';
+              }
+              $sSql = "INSERT INTO " . DB_PREFIX . "tags_object_leader
+            SET
+              id_lider = " . $iContentId . ",
+              value_object = '" . $value['object_value'] . "',
+              id_object   = '" . $value['object_id'] . "'";
+  //           echo "$sSql";
+            $oResult = $oDB->query($sSql);
+            }else{
+              // if (!isset($value['object_value'])) {
+              //   $value['object_value'] = ' ';
+              // }
+              $sSql = "UPDATE " . DB_PREFIX . "tags_object_leader SET value_object = '".$value['object_value']."' WHERE  id_object = " . $value['object_id'] . " AND id_lider = " . $_GET["content_id"];
+              //echo "$sSql";
+              $oResult = $oDB->query($sSql);
+            }
+      }
+    }
+  }
+  }
+}
+}
+
+//   echo "<pre>";
+//   print_r($_POST["leader_object_old"]);
 // echo "</pre>";
+// echo "<pre>";
+//   print_r($_POST["object_value_old"]);
+// echo "</pre>";
+// echo "<pre>";
+//   print_r($_POST["leader_tag_old"]);
+// echo "</pre>";
+if (isset($_POST['leader_object_old']) && isset($_POST['leader_tag_old'])) {
+  # code...
+
+  $id_leader_old = $_GET["content_id"]; 
+
+  $leader_object_old = $_POST['leader_object_old'];
+
+  foreach ($leader_object_old as $key => $value) {
+    if ($value != '') {
+      $tag_old['object_id'][] = $value;
+    }
+  }
+
+  $object_value_old = $_POST['object_value_old'];
+
+  foreach ($object_value_old as $key => $value) {
+    if ($value != '') {
+      $tag_old['object_value'][] = $value;
+    }else{
+      $tag_old['object_value'][] = " ";
+    }
+  }
+
+  $leader_tag_old = $_POST['leader_tag_old'];
+  $i = 0;
+  foreach ($leader_tag_old as $key => $value) {
+    
+    foreach ($value as $key => $value2) {
+      if ($value2 != '') {
+        $tag_old['tag'][$i][][] = $value2;
+      }
+    }
+    $i++;
+  }
+
+if (isset($tag_old['tag'])) {
+
+
+  $tags_from_db_old = $tag_old['tag'];
+  foreach ($tags_from_db_old as $key => $value) {
+    foreach ($value as $key2 => $value2) {
+      foreach ($value2 as $key3 => $value3) {
+      $sSql = "SELECT * FROM " . DB_PREFIX . "tags WHERE id_name_tag_1 = " . $value3 . " OR id_name_tag_2 = " . $value3 . " OR id_name_tag_3 = " . $value3;
+      if($oResult_old = $oDB->query($sSql)){
+        $aRow_old[$key][] = $oResult_old->fetch_assoc();
+      }
+     }
+    }
+  }
+
+  $i = 0;
+foreach ($tags_from_db_old as $key => $value) {
+
+  foreach ($value as $key2 => $value2) {
+    $tags_post_old[$i][] = $value2[0];
+  }
+  $i++;
+}
+
+
+foreach ($tags_post_old as $key => $value) {
+  foreach ($value as $key2 => $value2) {
+    
+    foreach ($aRow_old as $key3 => $value3) {
+      if (isset($value3[$key2]["id_name_tag_1"]) && $value3[$key2]["id_name_tag_1"] == $value2) {
+        $result_old[$key3][$key2]['id_name_tag_1'] = $value3[$key2]["id_name_tag_1"];
+        $result_old[$key3][$key2]['id_name_tag_2'] = '0';
+        $result_old[$key3][$key2]['id_name_tag_3'] = '0';
+      }
+      if (isset($value3[$key2]["id_name_tag_2"]) && $value3[$key2]["id_name_tag_2"] == $value2) {
+        $result_old[$key3][$key2]['id_name_tag_1'] = $value3[$key2]["id_name_tag_1"];
+        $result_old[$key3][$key2]['id_name_tag_2'] = $value3[$key2]["id_name_tag_2"];
+        $result_old[$key3][$key2]['id_name_tag_3'] = '0';
+      }
+      if (isset($value3[$key2]["id_name_tag_3"]) && $value3[$key2]["id_name_tag_3"] == $value2) {
+        $result_old[$key3][$key2]['id_name_tag_1'] = $value3[$key2]["id_name_tag_1"];
+        $result_old[$key3][$key2]['id_name_tag_2'] = $value3[$key2]["id_name_tag_2"];
+        $result_old[$key3][$key2]['id_name_tag_3'] = $value3[$key2]["id_name_tag_3"];
       }
     }
   }
 }
 }
+  // if (isset($tag_old['object_id'])) {
+foreach ($tag_old['object_id'] as $key => $value) {
+    // foreach ($result as $key3 => $value3) {
+      $result_old[$key]['object_id'] = $value;
+
+    // }
+}
+  // if (isset($tag_old['object_value'])) {
+foreach ($tag_old['object_value'] as $key => $value) {
+    // foreach ($result as $key3 => $value3) {
+
+   $result_old[$key]['object_value'] = trim($value);
+
+      
+
+    // }
+}
+// }
+  if (isset($tag_old['object_id']) && isset($tag_old['object_value'])) {
+  foreach ($result_old as $key => $value) {
+    for ($i = 0 ; $i < 5 ; $i++) {  
+      if (isset($value[$i]['id_name_tag_1'])) {
+          $sSql = "INSERT INTO " . DB_PREFIX . "tags_leaders
+          SET
+            id_leader = " . $iContentId . ",
+            id_name_tag_1  = " . $value[$i]['id_name_tag_1'] . ",
+            id_name_tag_2  = " . $value[$i]['id_name_tag_2'] . ",
+            id_name_tag_3  = " . $value[$i]['id_name_tag_3'] . ",
+            id_name_object  = '" . $value['object_id'] . "'";
+            // echo "$sSql";
+          $oResult_old = $oDB->query($sSql);
+
+           $sSql = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id_object = " . $value['object_id'] . " AND id_lider = '" . $iContentId . "'";
+            $oResult_old = $oDB->query($sSql);
+            $aRow_old = $oResult_old->fetch_assoc();
+            if (empty($aRow_old)) {
+              if (!isset($value['object_value'])) {
+                $value['object_value'] = ' ';
+              }
+              $sSql = "INSERT INTO " . DB_PREFIX . "tags_object_leader
+            SET
+              id_lider = " . $iContentId . ",
+              value_object = '" . $value['object_value'] . "',
+              id_object   = '" . $value['object_id'] . "'";
+  //           echo "$sSql";
+            $oResult_old_old = $oDB->query($sSql);
+            }else{
+              if (!isset($value['object_value'])) {
+                $value['object_value'] = ' ';
+              }
+              $sSql = "UPDATE " . DB_PREFIX . "tags_object_leader SET value_object = '".$value['object_value']."' WHERE  id_object = " . $value['object_id'] . " AND id_lider = " . $_GET["content_id"];
+              //echo "$sSql";
+              $oResult_old = $oDB->query($sSql);
+            }
+      } else {
+  //       $sSql = "SELECT * FROM " . DB_PREFIX . "tags_object_leader WHERE id_object = " . $value['object_id'] . " AND id_lider = '" . $iContentId . "'";
+  //           $oResult = $oDB->query($sSql);
+  //           $aRow = $oResult->fetch_assoc();
+  //           if (empty($aRow)) {
+  //             $sSql = "INSERT INTO " . DB_PREFIX . "tags_object_leader
+  //           SET
+  //             id_lider = " . $iContentId . ",
+  //             value_object = '" . $value['object_value'] . "',
+  //             id_object   = '" . $value['object_id'] . "'";
+  // //           echo "$sSql";
+  //           $oResult = $oDB->query($sSql);
+  //           }else{
+        // if (isset($value['object_value'])) {
+        //   $value['object_value'] = '';
+        // }
+        if (isset($value['object_value']) && isset($value['object_id'])) {
+          # code...
+        
+              $sSql = "UPDATE " . DB_PREFIX . "tags_object_leader SET value_object = '".$value['object_value']."' WHERE  id_object = " . $value['object_id'] . " AND id_lider = " . $_GET["content_id"];
+              //echo "$sSql";
+              $oResult = $oDB->query($sSql);
+            }
+      }
+    }
+  }
+}
+}
+
 // echo "<pre>";
 //     print_r($result);
 // echo "</pre>";
